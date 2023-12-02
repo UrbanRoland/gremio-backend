@@ -45,6 +45,13 @@ jobs:
       # run tests!
       - run: gradle test
 
+     # Install Docker
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install docker.io
+            
       - run:
           name: Build Docker image
           command: docker build -t $DOCKER_USERNAME/gremio_backend:latest .

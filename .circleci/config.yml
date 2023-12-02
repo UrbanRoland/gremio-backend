@@ -41,6 +41,8 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+      # Run your Gradle build
+      - run: gradle build
       # run: gradle tests
 
       - setup_remote_docker:

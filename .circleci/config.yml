@@ -27,6 +27,14 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
+      # Install Gradle
+      - run:
+          name: Install Gradle
+          command: |
+            wget https://services.gradle.org/distributions/gradle-7.4-bin.zip
+            unzip -d /opt gradle-7.4-bin.zip
+            export PATH=$PATH:/opt/gradle-7.4/bin
+            gradle --version  # Print Gradle version for verification
 
       # Download and cache dependencies
       - restore_cache:

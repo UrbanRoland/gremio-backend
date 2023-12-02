@@ -44,3 +44,12 @@ jobs:
 
       # run tests!
       - run: gradle test
+
+      - run:
+          name: Build Docker image
+          command: docker build -t $DOCKER_USERNAME/gremio_backend:latest .
+
+      # Push Docker image to Docker Hub
+      - run:
+          name: Push Docker image to Docker Hub
+          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && docker push $DOCKER_USERNAME/gremio_backend:latest

@@ -47,17 +47,13 @@ jobs:
       - run:
           name: Install Docker
           command: |
-            sudo apt-get update
-            sudo apt-get install -y docker.io
+             apt-get update
+             apt-get install -y docker.io
 
       # Build Docker image
       - run:
           name: Build Docker image
-          command: |
-            wget https://services.gradle.org/distributions/gradle-7.4-bin.zip
-            unzip -d ~/ gradle-7.4-bin.zip
-            export PATH=$PATH:~/gradle-7.4/bin
-            docker build -t $DOCKER_USERNAME/gremio_backend:latest .
+          command: docker build -t $DOCKER_USERNAME/gremio_backend:latest .
 
       # Push Docker image to Docker Hub
       - run:

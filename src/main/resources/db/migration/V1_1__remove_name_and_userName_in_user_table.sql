@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS public.users DROP COLUMN name;
+ALTER TABLE IF EXISTS public.users DROP COLUMN username;

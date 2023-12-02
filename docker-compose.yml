@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  postgres:
+    build:
+      context: ./src/main/java/com/gremio/postgres/.
+    container_name: gremio_postgres
+    restart: unless-stopped
+    networks:
+      - gremio
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: gremio
+      POSTGRES_USER: gremio
+    volumes:
+      - psql_gremio:/var/lib/postgresql/data
+      - gremio_psql_logs:/logs/postgres
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gremio_backend
+    restart: unless-stopped
+    networks:
+      - gremio
+    ports:
+      - "9000:8080"
+    volumes:
+      - spring_app_config:/app/config
+      - spring_app_logs:/app/logs
+    depends_on:
+      - postgres
+
+networks:
+  gremio:
+    external: true
+volumes:
+  psql_gremio:
+  gremio_psql_logs:
+  spring_app_config:
+  spring_app_logs:

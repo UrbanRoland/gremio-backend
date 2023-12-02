@@ -10,12 +10,11 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       # specify the version you desire here
-      - image: cimg/base:2022.01
+      - image: gradle:7.4-jdk17
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/circleci-images/
-      # - image: circleci/postgres:9.4
 
     working_directory: ~/repo
 
@@ -27,14 +26,6 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
-      # Install Gradle
-      - run:
-          name: Install Gradle
-          command: |
-            wget https://services.gradle.org/distributions/gradle-7.4-bin.zip
-            unzip -d /opt gradle-7.4-bin.zip
-            export PATH=$PATH:/opt/gradle-7.4/bin
-            gradle --version  # Print Gradle version for verification
 
       # Download and cache dependencies
       - restore_cache:
@@ -51,20 +42,20 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
-     # - run: gradle test
+      - run: gradle test
 
-     # Install Docker
-      - run:
-          name: Install Docker
-          command: |
-             apt-get update
-             apt-get install -y docker.io
-
+      # Build Docker image
       - run:
           name: Build Docker image
-          command: docker build -t $DOCKER_USERNAME/gremio_backend:latest .
+          command: |
+            wget https://services.gradle.org/distributions/gradle-7.4-bin.zip
+            unzip -d ~/ gradle-7.4-bin.zip
+            export PATH=$PATH:~/gradle-7.4/bin
+            docker build -t $DOCKER_USERNAME/gremio_backend:latest .
 
       # Push Docker image to Docker Hub
       - run:
           name: Push Docker image to Docker Hub
-          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && docker push $DOCKER_USERNAME/gremio_backend:latest
+          command: |
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker push $DOCKER_USERNAME/gremio_backend:latest

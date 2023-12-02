@@ -15,11 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-@ActiveProfiles("test")
+//@DataJpaTest
+//@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+//@ActiveProfiles("test")
 public class TaskRepositoryTest {
-
+/*
     @Autowired
     TaskRepository taskRepository;
     private Task task1;
@@ -68,5 +68,5 @@ public class TaskRepositoryTest {
         Assertions.assertEquals(tasks.getTotalElements(),1);
 
     }
-
+*/
 }

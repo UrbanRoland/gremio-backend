@@ -1,3 +1,4 @@
+--CREATE SEQUENCE revinfo_seq;
 --ALTER SEQUENCE revinfo_seq INCREMENT BY 50;
 
 CREATE TABLE IF NOT EXISTS public.users_aud (

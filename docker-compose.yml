@@ -17,11 +17,12 @@ services:
       - gremio_psql_logs:/logs/postgres
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
 
-  api:
+  gremio_backend:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: gremio_backend
+    image: gremio_backend
     restart: unless-stopped
     networks:
       - gremio

@@ -9,14 +9,17 @@ import com.gremio.model.dto.request.UpdateUserRequest;
 import com.gremio.model.dto.response.PageableResponse;
 import com.gremio.persistence.entity.User;
 import com.gremio.service.interfaces.UserService;
-import jakarta.annotation.security.PermitAll;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
@@ -65,7 +68,6 @@ public class UserController extends AbstractController {
     
     @PostMapping("/reset-password")
     public ResponseEntity<EmailRequest> resetPassword(@RequestBody final ResetPasswordRequest request) {
-        System.out.println("token : " + request.getToken() + " password: " + request.getPassword());
        // userFacade.forgotPassword(request.getEmail());
         userFacade.resetPassword(request.getPassword(), request.getToken());
         //emailService.forgotPasswordEmail("urolir@gmail.com","test5","resetPassword");

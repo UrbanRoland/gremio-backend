@@ -1,12 +1,13 @@
 package com.gremio.model.dto.request;
 
+import com.gremio.validator.annotation.Required;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-// Create a DTO (Data Transfer Object) class for the request body
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class EmailRequest {
+    @Required
     private String email;
     
     

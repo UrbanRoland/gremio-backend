@@ -9,7 +9,7 @@ import com.gremio.persistence.entity.User;
 import com.gremio.repository.PasswordResetTokenRepository;
 import com.gremio.service.interfaces.EmailService;
 import com.gremio.service.interfaces.UserService;
-import java.time.Duration;;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;

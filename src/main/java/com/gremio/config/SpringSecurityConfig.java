@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -63,26 +65,22 @@ public class SpringSecurityConfig {
     @Bean
     protected SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
        return http
-               .cors()
-               .and()
-               .authorizeHttpRequests()
-               .requestMatchers(AUTH_WHITELIST)
-               .permitAll()
-               .anyRequest().authenticated()
-               .and()
-               .addFilterBefore(new AuthenticationProcessingFilter(authenticationManager(authConfig), conversionService, jwtService, userService), UsernamePasswordAuthenticationFilter.class)
+           .cors(AbstractHttpConfigurer::disable)
+           .authorizeHttpRequests(auth ->
+               auth.requestMatchers(AUTH_WHITELIST)
+                   .permitAll()
+                   .anyRequest()
+                   .authenticated())
+               .addFilterBefore(new AuthenticationProcessingFilter(authenticationManager(authConfig),
+                   conversionService, jwtService, userService), UsernamePasswordAuthenticationFilter.class)
                .addFilter(new JwtAuthTokenFilter(authenticationManager(authConfig), jwtService, userService))
-               .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-               .and()
-               .exceptionHandling()
-               .authenticationEntryPoint((httpServletRequest, httpServletResponse, e) ->
+               .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+               .exceptionHandling(exception ->
+                   exception.authenticationEntryPoint((httpServletRequest, httpServletResponse, e) ->
                        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "unauthorized"))
-               .accessDeniedHandler(new AccessDeniedHandlerImpl())
-               .and()
-               .logout()
-               .permitAll()
-               .and()
-               .csrf().disable()
+                        .accessDeniedHandler(new AccessDeniedHandlerImpl()))
+               .logout(LogoutConfigurer::permitAll)
+               .csrf(AbstractHttpConfigurer::disable)
                .build();
     }
 }

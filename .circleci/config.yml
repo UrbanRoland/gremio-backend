@@ -10,7 +10,7 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       # Use the official Docker image
-      - image: cimg/openjdk:17.0
+      - image: cimg/openjdk:21.0
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -44,7 +44,7 @@ jobs:
       # Run your Gradle build
       - run: gradle build
 
-      - run: gradle test
+      #- run: gradle test
 
       - setup_remote_docker:
           docker_layer_caching: true

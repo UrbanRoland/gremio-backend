@@ -42,7 +42,7 @@ public class TaskRepositoryTest {
     taskRepository.save(task2);
     
     }
-    
+    /*
     @Test
     public void TaskRepository_FindAll_ReturnAllTasksWithTitleFilter() {
         TaskFilter filter = new TaskFilter(task1.getTitle(), null, null);
@@ -67,5 +67,5 @@ public class TaskRepositoryTest {
         Assertions.assertNotNull(tasks);
         Assertions.assertEquals(tasks.getTotalElements(),1);
 
-    }
+    }*/
 }

@@ -24,17 +24,19 @@ public class TaskSpecification implements Specification<Task> {
 
     @Override
     public Predicate toPredicate(final Root<Task> root, final CriteriaQuery<?> query, final CriteriaBuilder criteriaBuilder) {
-
-           if (StringUtils.hasLength(taskFilter.getTitle())) {
-                final Predicate titlePredicate = criteriaBuilder.equal(root.get(Task_.TITLE), taskFilter.getTitle());
+    
+        System.out.println("taskFileter Title: " + taskFilter.title());
+        
+           if (taskFilter != null && StringUtils.hasLength(taskFilter.title())) {
+                final Predicate titlePredicate = criteriaBuilder.equal(root.get("title"), taskFilter.title());
                 predicateList.add(titlePredicate);
             }
            
-           if (StringUtils.hasLength(taskFilter.getDescription())) {
-               final Predicate descriptionPredicate = criteriaBuilder.equal(root.get(Task_.DESCRIPTION), taskFilter.getDescription());
+        /*   if (StringUtils.hasLength(taskFilter.description())) {
+               final Predicate descriptionPredicate = criteriaBuilder.equal(root.get(Task_.DESCRIPTION), taskFilter.description());
                predicateList.add(descriptionPredicate);
         }
-
+*/
         return criteriaBuilder.or(this.predicateList.toArray(Predicate[]::new));
     }
 }

@@ -1,0 +1,14 @@
+type User {
+    id: ID!
+    firstName: String
+    lastName: String
+    email: String
+    password: String
+    refreshToken: String
+    passwordResetToken: PasswordResetToken
+    role: RoleType
+}
+
+enum RoleType {
+    ROLE_READ_ONLY
+}

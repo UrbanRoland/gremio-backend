@@ -1,0 +1,45 @@
+type Task {
+    assignee: [User]
+    title: String!
+    due: String
+    project: Project
+    description: String
+    status: TaskStatus
+}
+
+enum TaskStatus {
+    PASSED
+    FAILED
+    REVIEW
+}
+
+type TaskConnection {
+    edges: [TaskEdge]!
+    pageInfo: PageInfo!
+}
+
+type TaskEdge {
+    node: Task!
+    cursor: String!
+}
+
+type PageInfo {
+    hasPreviousPage: Boolean!
+    hasNextPage: Boolean!
+    startCursor: String
+    endCursor: String
+}
+
+input TaskFilter {
+    title: String
+    description: String
+    status: TaskStatus
+}
+
+input TaskInput {
+    title: String
+    due: String
+    projectId: ID
+    description: String
+    status: TaskStatus
+}

@@ -1,0 +1,6 @@
+type PasswordResetToken {
+    id: ID!
+    token: String
+    user: User
+    creationDate: String
+}

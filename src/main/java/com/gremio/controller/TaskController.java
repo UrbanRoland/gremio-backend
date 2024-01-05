@@ -23,7 +23,7 @@ public class TaskController{
      * @param task The task object to be added.
      * @return A ResponseEntity containing the newly created task and HTTP status 201 (Created).
      */
-    @PreAuthorize("!hasAuthority('ROLE_READ_ONLY')")
+   // @PreAuthorize("!hasAuthority('ROLE_READ_ONLY')")
     @MutationMapping
     public Task createTask(@Argument TaskInput task) {
         return taskService.addTask(task);

@@ -21,14 +21,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task addTask(final TaskInput task) {
-    
-        System.out.println(task.projectId());
+        
         Project project = projectRepository.findById(task.projectId()).orElse(null);
         
       Task result = Task.builder()
           .title(task.title())
           .status(task.status())
           .description(task.description())
+          .due(task.due())
           .project(project)
           .build();
 

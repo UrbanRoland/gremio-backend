@@ -6,6 +6,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -27,7 +29,7 @@ public class Task extends BaseEntity {
     @OneToMany
     private List<User> assignee;
     private String title;
-    private Date due;
+    private LocalDateTime due;
     @ManyToOne
     private Project project;
     private String description;

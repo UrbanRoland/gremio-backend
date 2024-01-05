@@ -1,7 +1,7 @@
 type Task {
     assignee: [User]
     title: String!
-    due: String
+    due: LocalDateTime
     project: Project
     description: String
     status: TaskStatus
@@ -38,7 +38,7 @@ input TaskFilter {
 
 input TaskInput {
     title: String
-    due: String
+    due: LocalDateTime
     projectId: ID
     description: String
     status: TaskStatus

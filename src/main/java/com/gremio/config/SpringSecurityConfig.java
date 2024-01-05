@@ -4,12 +4,14 @@ import com.gremio.jwt.AuthenticationProcessingFilter;
 import com.gremio.jwt.JwtAuthTokenFilter;
 import com.gremio.service.interfaces.JwtService;
 import com.gremio.service.interfaces.UserService;
+import graphql.scalars.ExtendedScalars;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -27,17 +29,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity
+@EnableMethodSecurity(securedEnabled = true)
 @EnableJpaAuditing
 public class SpringSecurityConfig {
     private static final String[] AUTH_WHITELIST = {
         "/api/auth/**",
-        "/swagger-resources/**",
-        "/swagger-ui/**",
         "/v3/api-docs",
         "/login/**",
         "/users/forgot-password",
-        "/users/reset-password"
+        "/users/reset-password",
+        "/graphql/**",
+        "/graphiql"
     };
 
     private final PasswordEncoder passwordEncoder;
@@ -60,6 +62,14 @@ public class SpringSecurityConfig {
     public AuthenticationManager authenticationManager(
             final AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
+    }
+    
+    @Bean
+    public RuntimeWiringConfigurer runtimeWiringConfigurer() {
+        return wiringBuilder -> wiringBuilder
+            .scalar(ExtendedScalars.Date)
+            .scalar(ExtendedScalars.DateTime)
+            .scalar(ExtendedScalars.LocalTime);
     }
 
     @Bean

@@ -1,9 +1,9 @@
 package com.gremio.service.interfaces;
 
-import com.gremio.model.dto.filter.TaskFilter;
+import com.gremio.model.dto.TaskInput;
 import com.gremio.persistence.entity.Task;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
+import org.springframework.graphql.data.query.ScrollSubrange;
 
 public interface TaskService {
 
@@ -13,14 +13,12 @@ public interface TaskService {
      * @param task The task object to be added.
      * @return The newly added task.
      */
-    Task addTask(Task task);
-
+    Task addTask(TaskInput task);
+    
     /**
-     * Retrieves a page of tasks based on the provided task filter and pagination information.
-     *
-     * @param taskFilter The task filter to apply for retrieving tasks.
-     * @param pageable   The pagination information.
-     * @return A page of tasks that match the specified filter criteria.
+     * Retrieves all tasks from the system that match the given title.
+     * @param title The title to match.
+     * @return Existing tasks with the given title.
      */
-    Page<Task> getAllByFilter(TaskFilter taskFilter, Pageable pageable);
+    Window<Task> findAllTasksByTitle(String title, ScrollSubrange subrange);
 }

@@ -10,6 +10,7 @@ type Mutation {
     login(email: String!, password: String!): AuthResponse
     registration(user:UserInput): User
     refreshToken(tokenRequest: TokenRefreshInput!): AuthResponse
+    updateUserData(user:UserInput): User
 }
 
 type AuthResponse {

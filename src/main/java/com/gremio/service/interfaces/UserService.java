@@ -8,6 +8,7 @@ import com.gremio.persistence.entity.User;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Window;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
@@ -54,9 +55,8 @@ public interface UserService extends UserDetailsService {
     /**
      * update user data.
      *
-     * @param id of a user
-     * @param userDto the update requested userDto
+     * @param userInput The user input.
      * @return the updated user
      */
-    User update(long id, UserDto userDto);
+    User update(UserInput userInput);
 }

@@ -3,6 +3,7 @@ package com.gremio.controller;
 import com.gremio.facade.UserFacade;
 import com.gremio.model.dto.UserDetailsDto;
 import com.gremio.model.dto.UserDto;
+import com.gremio.model.dto.UserInput;
 import com.gremio.model.dto.request.EmailRequest;
 import com.gremio.model.dto.request.ResetPasswordRequest;
 import com.gremio.model.dto.request.UpdateUserRequest;
@@ -11,6 +12,8 @@ import com.gremio.persistence.entity.User;
 import com.gremio.service.interfaces.UserService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//todo need to refactor
 @RestController
 @RequestMapping("/users")
 public class UserController extends AbstractController {
@@ -49,16 +53,14 @@ public class UserController extends AbstractController {
     /**
      * Update an existing user.
      *
-     * @param request the user request
+     * @param  user The user input.
      * @return the updated user
      */
-    @PutMapping("/{id}")
-    public  UserDetailsDto updateUser(@PathVariable final long id, @RequestBody final UpdateUserRequest request) {
-        final User user = userService.update(id, this.getConversionService().convert(request, UserDto.class));
-
-        return this.getConversionService().convert(user, UserDetailsDto.class);
+    @MutationMapping
+    public User updateUserData(@Argument final UserInput user) {
+        return userService.update(user);
     }
-    
+
     @PostMapping("/forgot-password")
     public ResponseEntity<EmailRequest> forgotPassword(@RequestBody final EmailRequest request) {
         userFacade.forgotPassword(request.getEmail());

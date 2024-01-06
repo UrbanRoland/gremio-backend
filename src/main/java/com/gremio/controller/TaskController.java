@@ -25,10 +25,10 @@ public class TaskController {
      */
     @PreAuthorize("!hasAuthority('ROLE_READ_ONLY')")
     @MutationMapping
-    public Task createTask(@Argument TaskInput task) {
+    public Task createTask(@Argument final TaskInput task) {
         return taskService.addTask(task);
     }
-    
+
     /**
      * Retrieves all tasks from the system that match the given title.
      * @param title The title to match.
@@ -36,12 +36,8 @@ public class TaskController {
      */
     @PreAuthorize("isAuthenticated()")
     @QueryMapping
-    public Window<Task> findAllTasksByTitle(@Argument String title, ScrollSubrange subrange) {
-
+    public Window<Task> findAllTasksByTitle(@Argument final String title, final ScrollSubrange subrange) {
         return taskService.findAllTasksByTitle(title, subrange);
     }
-    
-    
-
 
 }

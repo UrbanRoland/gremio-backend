@@ -6,7 +6,6 @@ import com.gremio.message.NotFoundMessageKey;
 import com.gremio.model.dto.UserDetailsDto;
 import com.gremio.model.dto.UserDto;
 import com.gremio.model.dto.UserInput;
-import com.gremio.model.dto.request.CreateUserRequest;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
 import com.gremio.service.interfaces.UserService;
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService {
     public User findUserByEmail(final String email) {
         return userRepository.findUserByEmail(email);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -97,21 +96,21 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User update(final long id, final UserDto userDto) {
-        final User user = userRepository.getReferenceById(id);
+    public User update(final UserInput userInput) {
+        final User user = userRepository.getReferenceById(userInput.id());
 
-        if (userDto.getEmail() != null && !userDto.getEmail().equals("")) {
-            if (!userDto.getEmail().equals(user.getEmail()) && userRepository.findUserByEmail(userDto.getEmail()) != null) {
-                throw new ValidationException("Email already taken!");
+        if (userInput.email() != null && !userInput.email().equals("")) {
+            if (!userInput.email().equals(user.getEmail()) && userRepository.findUserByEmail(userInput.email()) != null) {
+                throw new ValidationException("Something went wrong! Please try again later.");
             }
-            user.setEmail(userDto.getEmail());
+            user.setEmail(userInput.email());
         }
 
-        if (userDto.getPassword() != null && !userDto.getPassword().equals("")) {
-            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        if (userInput.password() != null && !userInput.password().equals("")) {
+            user.setPassword(passwordEncoder.encode(userInput.password()));
         }
 
-        user.setRole(userDto.getRole());
+        user.setRole(userInput.role());
 
         return userRepository.save(user);
     }

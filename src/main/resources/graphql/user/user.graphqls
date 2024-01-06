@@ -17,8 +17,9 @@ enum RoleType {
 }
 
 input UserInput {
-    email: String!
-    password: String!
+    id: ID
+    email: String
+    password: String
     role: RoleType
     firstName: String
     lastName: String

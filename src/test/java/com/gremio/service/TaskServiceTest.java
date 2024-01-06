@@ -17,9 +17,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.Collections;
 import java.util.Date;
 
+//todo need to refactor
 @ExtendWith(MockitoExtension.class)
 public class TaskServiceTest {
-
+    /*
     @InjectMocks
     private TaskServiceImpl taskService;
 
@@ -28,8 +29,7 @@ public class TaskServiceTest {
 
     private Task task;
     
-    //TODO fix tests
-    /*
+
     @Test
     public void TaskService_AddTask_ReturnTask() {
         final Task task = Task.builder()

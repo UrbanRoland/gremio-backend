@@ -7,4 +7,13 @@ type Query {
 
 type Mutation {
     createTask(task: TaskInput!): Task
+    login(email: String!, password: String!): AuthResponse
+}
+
+type AuthResponse {
+    id: ID
+    email: String
+    accessToken: String
+    refreshToken: String
+    role:RoleType
 }

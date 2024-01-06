@@ -4,16 +4,22 @@ import com.gremio.enums.UserMessageKey;
 import com.gremio.exception.NotFoundException;
 import com.gremio.exception.UserException;
 import com.gremio.message.NotFoundMessageKey;
+import com.gremio.model.dto.response.AuthResponse;
 import com.gremio.persistence.entity.PasswordResetToken;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.PasswordResetTokenRepository;
 import com.gremio.service.interfaces.EmailService;
+import com.gremio.service.interfaces.JwtService;
 import com.gremio.service.interfaces.UserService;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +32,9 @@ public class UserFacadeImpl implements  UserFacade {
     private final EmailService emailService;
     private final PasswordResetTokenRepository resetTokenRepository;
     private final PasswordEncoder passwordEncoder;
+    
+    private  final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public String forgotPassword(final String email) {
@@ -66,8 +75,15 @@ public class UserFacadeImpl implements  UserFacade {
         
         System.out.println(resetToken.getUser().getEmail());
     }
-    
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AuthResponse login(final String email, final String password) {
+        return attemptAuthentication(email, password);
+    }
+
     private String generateToken() {
         return UUID.randomUUID() + UUID.randomUUID().toString();
     }
@@ -97,4 +113,27 @@ public class UserFacadeImpl implements  UserFacade {
         return diff.toMinutes() >= EXPIRE_TOKEN_AFTER_MINUTES;
         
     }
+
+    private AuthResponse attemptAuthentication(final String email, final String password) throws AuthenticationException {
+        final User user = userService.findUserByEmail(email);
+        if (user == null) {
+            throw new NotFoundException(NotFoundMessageKey.USER);
+        }
+
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                email,
+                password,
+                new ArrayList<>())
+        );
+
+        return AuthResponse.builder()
+            .id(user.getId())
+            .email(user.getEmail())
+            .accessToken(jwtService.generateToken(user))
+            .refreshToken(jwtService.generateRefreshToken(user))
+            .role(user.getRole())
+            .build();
+    }
+
 }

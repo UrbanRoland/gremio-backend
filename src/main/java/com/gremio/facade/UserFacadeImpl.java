@@ -4,6 +4,8 @@ import com.gremio.enums.UserMessageKey;
 import com.gremio.exception.NotFoundException;
 import com.gremio.exception.UserException;
 import com.gremio.message.NotFoundMessageKey;
+import com.gremio.model.dto.UserInput;
+import com.gremio.model.dto.request.CreateUserRequest;
 import com.gremio.model.dto.response.AuthResponse;
 import com.gremio.persistence.entity.PasswordResetToken;
 import com.gremio.persistence.entity.User;
@@ -84,6 +86,14 @@ public class UserFacadeImpl implements  UserFacade {
         return attemptAuthentication(email, password);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User userRegistration(final UserInput user) {
+        return userService.create(user);
+    }
+    
     private String generateToken() {
         return UUID.randomUUID() + UUID.randomUUID().toString();
     }

@@ -1,6 +1,9 @@
 package com.gremio.facade;
 
+import com.gremio.model.dto.UserInput;
+import com.gremio.model.dto.request.CreateUserRequest;
 import com.gremio.model.dto.response.AuthResponse;
+import com.gremio.persistence.entity.User;
 
 public interface UserFacade {
 
@@ -29,4 +32,12 @@ public interface UserFacade {
      * @return An AuthResponse containing the access token and refresh token.
      */
     AuthResponse login(String email, String password);
+
+    /**
+     * Creates a new user in the system.
+     *
+     * @param user The CreateUserRequest containing the user details to create.
+     * @return The UserDetailsDto of the newly created user.
+     */
+    User userRegistration(UserInput user);
 }

@@ -23,6 +23,8 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+//not using because graphql is not using this class
+//this is a rest implementation
 public class AuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private static final String LOGIN_ENDPOINT = "/login";
     private final AuthenticationManager authenticationManager;

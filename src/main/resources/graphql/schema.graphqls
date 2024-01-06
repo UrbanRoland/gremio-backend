@@ -8,6 +8,7 @@ type Query {
 type Mutation {
     createTask(task: TaskInput!): Task
     login(email: String!, password: String!): AuthResponse
+    registration(user:UserInput): User
 }
 
 type AuthResponse {
@@ -16,4 +17,12 @@ type AuthResponse {
     accessToken: String
     refreshToken: String
     role:RoleType
+}
+
+input UserInput {
+    email: String!
+    password: String!
+    role: RoleType
+    firstName: String
+    lastName: String
 }

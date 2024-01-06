@@ -5,6 +5,8 @@ import com.gremio.exception.NotFoundException;
 import com.gremio.message.NotFoundMessageKey;
 import com.gremio.model.dto.UserDetailsDto;
 import com.gremio.model.dto.UserDto;
+import com.gremio.model.dto.UserInput;
+import com.gremio.model.dto.request.CreateUserRequest;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
 import com.gremio.service.interfaces.UserService;
@@ -56,19 +58,22 @@ public class UserServiceImpl implements UserService {
     public Optional<UserDetailsDto> findById(final Long id) {
         return userRepository.findById(id).map(user -> conversionService.convert(user, UserDetailsDto.class));
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public User create(final User user) {
-        if (userRepository.findUserByEmail(user.getEmail()) != null) {
-            throw new ValidationException("email already taken");
+    public User create(final UserInput userInput) {
+        final User user = conversionService.convert(userInput, User.class);
+
+        if (user == null || userRepository.findUserByEmail(user.getEmail()) != null) {
+            throw new ValidationException("Something went wrong! Please try again later.");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(RoleType.ROLE_READ_ONLY);
 
+        //set default role
+        user.setRole(RoleType.ROLE_READ_ONLY);
         return userRepository.save(user);
     }
 

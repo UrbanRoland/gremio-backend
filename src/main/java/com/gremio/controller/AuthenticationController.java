@@ -2,6 +2,7 @@ package com.gremio.controller;
 
 import com.gremio.facade.UserFacade;
 import com.gremio.model.dto.UserDetailsDto;
+import com.gremio.model.dto.UserInput;
 import com.gremio.model.dto.request.CreateUserRequest;
 import com.gremio.model.dto.request.TokenRefreshRequest;
 import com.gremio.model.dto.response.AuthResponse;
@@ -30,15 +31,12 @@ public class AuthenticationController {
     /**
      * Creates a new user in the system.
      *
-     * @param request The CreateUserRequest containing the user details to create.
+     * @param user containing the user details to create.
      * @return The UserDetailsDto of the newly created user.
      */
-    @PostMapping
-    public UserDetailsDto createUser(@RequestBody @Valid final CreateUserRequest request) {
-        final User user = userService.create(conversionService.convert(request, User.class));
-
-       return conversionService.convert(user, UserDetailsDto.class);
-
+    @MutationMapping
+    public User registration(@Argument final UserInput user) {
+        return userFacade.userRegistration(user);
     }
 
     /**

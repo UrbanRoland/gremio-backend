@@ -9,6 +9,7 @@ type Mutation {
     createTask(task: TaskInput!): Task
     login(email: String!, password: String!): AuthResponse
     registration(user:UserInput): User
+    refreshToken(tokenRequest: TokenRefreshInput!): AuthResponse
 }
 
 type AuthResponse {
@@ -16,13 +17,5 @@ type AuthResponse {
     email: String
     accessToken: String
     refreshToken: String
-    role:RoleType
-}
-
-input UserInput {
-    email: String!
-    password: String!
     role: RoleType
-    firstName: String
-    lastName: String
 }

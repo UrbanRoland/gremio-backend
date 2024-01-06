@@ -4,6 +4,8 @@ import com.gremio.exception.NotFoundException;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.validation.ValidationException;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 import org.springframework.graphql.execution.ErrorType;
@@ -22,7 +24,8 @@ public class CustomExceptionResolver extends DataFetcherExceptionResolverAdapter
                 .path(env.getExecutionStepInfo().getPath())
                 .location(env.getField().getSourceLocation())
                 .build();
-        } else if(ex instanceof ValidationException || ex instanceof AuthenticationException) {
+        } else if(ex instanceof ValidationException || ex instanceof AuthenticationException ||
+            ex instanceof ExpiredJwtException || ex instanceof IllegalArgumentException || ex instanceof MalformedJwtException) {
             return GraphqlErrorBuilder.newError()
                 .errorType(ErrorType.INTERNAL_ERROR)
                 .message(ex.getMessage())

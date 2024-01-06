@@ -15,3 +15,15 @@ enum RoleType {
     ROLE_PM
     ROLE_ADMIN
 }
+
+input UserInput {
+    email: String!
+    password: String!
+    role: RoleType
+    firstName: String
+    lastName: String
+}
+
+input TokenRefreshInput {
+    refreshToken: String!
+}

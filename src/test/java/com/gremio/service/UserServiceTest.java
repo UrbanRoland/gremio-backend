@@ -22,16 +22,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-
-//todo need to refactor
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
-    /*
+    
     @InjectMocks
     private UserServiceImpl userService;
     
@@ -45,6 +42,8 @@ public class UserServiceTest {
     private PasswordEncoder passwordEncoder;
     
     private User user;
+    private UserDto userDto;
+
     @BeforeEach
     public void init() {
         this.user = User.builder()
@@ -55,6 +54,16 @@ public class UserServiceTest {
             .build();
         
         user.setId(1L);
+        
+        this.userDto = UserDto.builder()
+            .password("Test12345676")
+            .role(RoleType.ROLE_READ_ONLY)
+            .id(1L)
+            .firstName("Test")
+            .lastName("Test")
+            .email("test@test.com")
+            .build();
+        
     }
     @Test
     public void UserService_GetAllUser_ReturnsUserDetailsPage() {
@@ -93,8 +102,9 @@ public class UserServiceTest {
         Mockito.when(userRepository.findUserByEmail(Mockito.anyString())).thenReturn(null);
         Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn("encodedPassword");
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
+        Mockito.when(conversionService.convert(Mockito.any(UserDto.class), Mockito.eq(User.class))).thenReturn(user);
         
-        final User savedUser = userService.create(user);
+        final User savedUser = userService.create(userDto);
         
         Assertions.assertNotNull(savedUser);
         Assertions.assertEquals("encodedPassword",savedUser.getPassword());
@@ -103,11 +113,9 @@ public class UserServiceTest {
     }
     @Test
     public void UserService_CreateUser_ThrowsValidationException() {
-        Mockito.when(userRepository.findUserByEmail(Mockito.anyString())).thenReturn(user);
-    
-        Assertions.assertThrows(ValidationException.class, () -> userService.create(user));
+        Assertions.assertThrows(ValidationException.class, () -> userService.create(userDto));
     }
-    
+
     @Test
     public void UserService_FindUserById_ReturnsOptionalUser() {
         final UserDetailsDto userDetailsDto = UserDetailsDto.builder()
@@ -162,23 +170,17 @@ public class UserServiceTest {
     @Test
     public void UserService_Update_ReturnUser() {
         String encodedPassword = "encodedTest123";
-        UserDto userDto = UserDto.builder()
-            .email("newemail@example.com")
-            .role(RoleType.ROLE_READ_ONLY)
-            .password("test123")
-            .build();
+
         
-        Mockito.when(userRepository.getReferenceById(user.getId())).thenReturn(user);
-        Mockito.when(userRepository.findUserByEmail(userDto.getEmail())).thenReturn(null);
+        Mockito.when(userRepository.getReferenceById(userDto.id())).thenReturn(user);
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
-        Mockito.when(passwordEncoder.encode(userDto.getPassword())).thenReturn(encodedPassword);
+        Mockito.when(passwordEncoder.encode(userDto.password())).thenReturn(encodedPassword);
     
-        User updatedUser = userService.update(user.getId(), userDto);
+        User updatedUser = userService.update(userDto);
     
-        Assertions.assertEquals(userDto.getEmail(), updatedUser.getEmail());
+        Assertions.assertEquals(userDto.email(), updatedUser.getEmail());
         Assertions.assertEquals(encodedPassword, updatedUser.getPassword());
-        Assertions.assertEquals(userDto.getRole().getName(), updatedUser.getRole().getName());
+        Assertions.assertEquals(userDto.role().getName(), updatedUser.getRole().getName());
     
     }
-    */
 }

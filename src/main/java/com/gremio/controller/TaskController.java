@@ -1,6 +1,6 @@
 package com.gremio.controller;
 
-import com.gremio.model.dto.TaskInput;
+import com.gremio.model.dto.TaskDto;
 import com.gremio.persistence.entity.Task;
 import com.gremio.service.interfaces.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class TaskController {
      */
     @PreAuthorize("!hasAuthority('ROLE_READ_ONLY')")
     @MutationMapping
-    public Task createTask(@Argument final TaskInput task) {
+    public Task createTask(@Argument final TaskDto task) {
         return taskService.addTask(task);
     }
 

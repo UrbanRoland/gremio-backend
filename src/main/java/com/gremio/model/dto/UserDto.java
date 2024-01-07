@@ -1,15 +1,6 @@
 package com.gremio.model.dto;
 
 import com.gremio.enums.RoleType;
-import lombok.Builder;
-import lombok.Data;
 
-@Data
-@Builder
-public class UserDto {
-    private String email;
-    private String password;
-    private String accessToken;
-    private String refreshToken;
-    private RoleType role;
+public record UserDto(Long id, String email, String password, String firstName, String lastName, RoleType role, String token) {
 }

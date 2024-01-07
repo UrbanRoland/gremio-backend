@@ -32,9 +32,7 @@ public class EmailServiceImpl implements EmailService {
     
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-    
-    
-        System.out.println("  ads " + userAgent.getOperatingSystem().getName() + userAgent.getBrowser().getName());
+
         final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
         final Context context = new Context();
@@ -42,6 +40,8 @@ public class EmailServiceImpl implements EmailService {
         context.setVariable("username", username);
         context.setVariable("operating_system", userAgent.getOperatingSystem().getName());
         context.setVariable("browser_name", userAgent.getBrowser().getName());
+
+        //todo this should be dynamic based on the environment
         context.setVariable("action_url", "http://localhost:4200/reset-password/" + token);
         
         try {
@@ -51,6 +51,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setText(htmlContent, true);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
+            System.out.println("Error while sending mail .." + e.getMessage());
             // Handle exception
         }
     }

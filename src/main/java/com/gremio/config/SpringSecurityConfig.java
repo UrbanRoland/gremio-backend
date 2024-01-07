@@ -1,6 +1,6 @@
 package com.gremio.config;
 
-import com.gremio.jwt.AuthenticationProcessingFilter;
+import com.gremio.jwt.archive.AuthenticationProcessingFilter;
 import com.gremio.jwt.JwtAuthTokenFilter;
 import com.gremio.service.interfaces.JwtService;
 import com.gremio.service.interfaces.UserService;

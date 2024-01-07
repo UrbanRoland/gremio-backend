@@ -1,4 +1,4 @@
-package com.gremio.jwt;
+package com.gremio.jwt.archive;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gremio.exception.NotFoundException;

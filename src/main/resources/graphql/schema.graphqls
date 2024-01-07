@@ -1,16 +1,18 @@
 scalar LocalDateTime
 
 type Query {
-    findAllTasksByTitle(title:String, first: Int, after:String, last:Int, before:String): TaskConnection
+    findAllTasksByTitle(title: String, first: Int, after: String, last: Int, before: String): TaskConnection
 
 }
 
 type Mutation {
-    createTask(task: TaskInput!): Task
+    createTask(task: TaskDto!): Task
     login(email: String!, password: String!): AuthResponse
-    registration(user:UserInput): User
+    registration(user: UserDto): User
     refreshToken(tokenRequest: TokenRefreshInput!): AuthResponse
-    updateUserData(user:UserInput): User
+    updateUserData(user: UserDto): User
+    forgotPassword(emailDto: EmailDto!): String
+    resetPassword(userDto: UserDto): String
 }
 
 type AuthResponse {

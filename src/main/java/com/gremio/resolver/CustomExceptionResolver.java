@@ -1,6 +1,7 @@
 package com.gremio.resolver;
 
 import com.gremio.exception.NotFoundException;
+import com.gremio.exception.UserException;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
@@ -24,8 +25,9 @@ public class CustomExceptionResolver extends DataFetcherExceptionResolverAdapter
                 .path(env.getExecutionStepInfo().getPath())
                 .location(env.getField().getSourceLocation())
                 .build();
-        } else if(ex instanceof ValidationException || ex instanceof AuthenticationException ||
-            ex instanceof ExpiredJwtException || ex instanceof IllegalArgumentException || ex instanceof MalformedJwtException) {
+        } else if(ex instanceof ValidationException || ex instanceof AuthenticationException
+            || ex instanceof ExpiredJwtException || ex instanceof IllegalArgumentException
+            || ex instanceof MalformedJwtException || ex instanceof UserException) {
             return GraphqlErrorBuilder.newError()
                 .errorType(ErrorType.INTERNAL_ERROR)
                 .message(ex.getMessage())

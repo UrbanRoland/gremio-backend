@@ -4,8 +4,7 @@ import com.gremio.enums.UserMessageKey;
 import com.gremio.exception.NotFoundException;
 import com.gremio.exception.UserException;
 import com.gremio.message.NotFoundMessageKey;
-import com.gremio.model.dto.UserInput;
-import com.gremio.model.dto.request.CreateUserRequest;
+import com.gremio.model.dto.UserDto;
 import com.gremio.model.dto.response.AuthResponse;
 import com.gremio.persistence.entity.PasswordResetToken;
 import com.gremio.persistence.entity.User;
@@ -34,30 +33,35 @@ public class UserFacadeImpl implements  UserFacade {
     private final EmailService emailService;
     private final PasswordResetTokenRepository resetTokenRepository;
     private final PasswordEncoder passwordEncoder;
-    
-    private  final JwtService jwtService;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String forgotPassword(final String email) {
         final User user = userService.findUserByEmail(email);
-
+    
         if (user == null) {
-          throw  new NotFoundException(NotFoundMessageKey.USER);
+            throw new NotFoundException(NotFoundMessageKey.USER);
         }
-        String token = generateToken();
+        final String token = generateToken();
         createPasswordResetTokenForUser(user, token);
-        emailService.forgotPasswordEmail(user.getEmail(), "Reset Password","resetPassword", token, user.getUsername());
-
-        return "success";
+        emailService.forgotPasswordEmail(user.getEmail(), "Reset Password", "resetPassword", token, user.getUsername());
+    
+        return "Email sent successfully";
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void resetPassword(final String password, final String token) {
+    public String resetPassword(final String password, final String token) {
         final PasswordResetToken resetToken = resetTokenRepository.findByToken(token);
         
-        if(resetToken == null) {
+        if (resetToken == null) {
             throw new UserException(UserMessageKey.INVALID_TOKEN);
         }
     
@@ -76,6 +80,7 @@ public class UserFacadeImpl implements  UserFacade {
         //todo send an email to password successful updated
         
         System.out.println(resetToken.getUser().getEmail());
+        return "Password reset successfully";
     }
 
     /**
@@ -90,7 +95,7 @@ public class UserFacadeImpl implements  UserFacade {
      * {@inheritDoc}
      */
     @Override
-    public User userRegistration(final UserInput user) {
+    public User userRegistration(final UserDto user) {
         return userService.create(user);
     }
     
@@ -101,8 +106,8 @@ public class UserFacadeImpl implements  UserFacade {
     private void createPasswordResetTokenForUser(final User user, final String token) {
         final Optional<PasswordResetToken> optionalToken = resetTokenRepository.findByUserId(user.getId());
 
-       final PasswordResetToken passwordResetToken = optionalToken.orElseGet(() ->
-           PasswordResetToken.builder()
+        final PasswordResetToken passwordResetToken = optionalToken.orElseGet(() ->
+            PasswordResetToken.builder()
                .user(user)
                .build()
         );
@@ -114,14 +119,12 @@ public class UserFacadeImpl implements  UserFacade {
         passwordResetToken.setToken(token);
         passwordResetToken.setCreationDate(LocalDateTime.now());
     }
-    
-    
-    private boolean isTokenExpired(LocalDateTime tokenCreationDate) {
-        LocalDateTime now = LocalDateTime.now();
-        Duration diff = Duration.between(tokenCreationDate, now);
-        
+
+    private boolean isTokenExpired(final LocalDateTime tokenCreationDate) {
+        final LocalDateTime now = LocalDateTime.now();
+        final Duration diff = Duration.between(tokenCreationDate, now);
+
         return diff.toMinutes() >= EXPIRE_TOKEN_AFTER_MINUTES;
-        
     }
 
     private AuthResponse attemptAuthentication(final String email, final String password) throws AuthenticationException {

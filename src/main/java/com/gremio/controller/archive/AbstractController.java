@@ -1,4 +1,4 @@
-package com.gremio.controller;
+package com.gremio.controller.archive;
 
 import com.gremio.model.dto.response.PageableResponse;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 
 /**
+ * Not using this class
  * An abstract controller class providing common utility methods for handling paginated responses.
  */
 @RequiredArgsConstructor

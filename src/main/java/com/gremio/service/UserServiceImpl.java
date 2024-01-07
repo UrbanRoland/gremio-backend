@@ -5,7 +5,6 @@ import com.gremio.exception.NotFoundException;
 import com.gremio.message.NotFoundMessageKey;
 import com.gremio.model.dto.UserDetailsDto;
 import com.gremio.model.dto.UserDto;
-import com.gremio.model.dto.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
 import com.gremio.service.interfaces.UserService;
@@ -62,7 +61,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User create(final UserInput userInput) {
+    public User create(final UserDto userInput) {
         final User user = conversionService.convert(userInput, User.class);
 
         if (user == null || userRepository.findUserByEmail(user.getEmail()) != null) {
@@ -96,7 +95,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User update(final UserInput userInput) {
+    public User update(final UserDto userInput) {
         final User user = userRepository.getReferenceById(userInput.id());
 
         if (userInput.email() != null && !userInput.email().equals("")) {

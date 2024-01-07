@@ -1,4 +1,4 @@
-package com.gremio.controller;
+package com.gremio.controller.archive;
 
 import com.gremio.enums.GeneralExceptionMessage;
 import com.gremio.exception.NotFoundException;

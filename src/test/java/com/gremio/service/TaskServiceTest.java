@@ -1,8 +1,9 @@
 package com.gremio.service;
 
-import com.gremio.model.dto.filter.TaskFilter;
+import com.gremio.model.dto.TaskDto;
+import com.gremio.persistence.entity.Project;
 import com.gremio.persistence.entity.Task;
-import com.gremio.persistence.specification.TaskSpecification;
+import com.gremio.repository.ProjectRepository;
 import com.gremio.repository.TaskRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,56 +12,65 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import java.util.Collections;
-import java.util.Date;
+import org.springframework.data.domain.ScrollPosition;
+import org.springframework.data.domain.Window;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Limit;
+import org.springframework.graphql.data.query.ScrollSubrange;
 
-//todo need to refactor
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+
 @ExtendWith(MockitoExtension.class)
 public class TaskServiceTest {
-    /*
+
     @InjectMocks
     private TaskServiceImpl taskService;
-
     @Mock
     private TaskRepository taskRepository;
-
-    private Task task;
+    @Mock
+    private ProjectRepository projectRepository;
     
-
     @Test
     public void TaskService_AddTask_ReturnTask() {
-        final Task task = Task.builder()
+        final TaskDto taskDto = TaskDto.builder()
             .title("test")
-            .due(new Date())
+            .due(LocalDateTime.now())
             .build();
-    
-        Mockito.when(taskRepository.save(Mockito.any())).thenReturn(task);
         
-        Task savedTask = taskService.addTask(task);
+        final Project project = new Project(); // You need to create a Project instance here for the test
+        
+        Mockito.when(projectRepository.findById(Mockito.any())).thenReturn(Optional.of(project));
+        Mockito.when(taskRepository.save(Mockito.any())).thenReturn(new Task()); // You may need to create a Task instance here for the test
+        
+        Task savedTask = taskService.addTask(taskDto);
         
         Assertions.assertNotNull(savedTask);
-        Mockito.verify(taskRepository).save(task);
     }
     
     @Test
-    public void TaskService_GetAllByFilter_ReturnPage() {
-        TaskFilter taskFilter = new TaskFilter();
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+    public void TaskService_FindAllTasksByTitle_ReturnWindow() {
+        String title = "Test";
+        ScrollPosition position = ScrollPosition.offset();
+        ScrollSubrange subrange = ScrollSubrange.create(position,10,true);
+        List<Task> items = Collections.singletonList(Task.builder().title("Test").build());
+    
+        Window<Task> windowMock = Window.from(items, index -> position, true);
         
-        Page<Task> expectedPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
-        
-        Mockito.when(taskRepository.findAll(Mockito.any(
-            TaskSpecification.class), Mockito.any(Pageable.class))).thenReturn(expectedPage);
-        
-        Page<Task> actualPage = taskService.getAllByFilter(taskFilter, pageable);
-        
-        Assertions.assertEquals(expectedPage, actualPage);
-        Mockito.verify(taskRepository).findAll(Mockito.any(
-            TaskSpecification.class), Mockito.any(Pageable.class));
-        
-    }*/
+        Mockito.when(taskRepository.findAllByTitle(
+            Mockito.eq(title),
+            Mockito.any(ScrollPosition.class),
+            Mockito.any(Limit.class),
+            Mockito.any(Sort.class)
+        )).thenReturn(windowMock);
+
+        Window<Task> resultWindow = taskService.findAllTasksByTitle(title, subrange);
+
+        Assertions.assertNotNull(resultWindow);
+        Assertions.assertEquals(1, resultWindow.getContent().size());
+    }
     
 }

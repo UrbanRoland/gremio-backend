@@ -1,6 +1,6 @@
 package com.gremio.controller.archive;
 
-import com.gremio.model.dto.response.PageableResponse;
+import com.gremio.model.dto.response.archive.PageableResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;

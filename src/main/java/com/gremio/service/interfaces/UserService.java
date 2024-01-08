@@ -1,6 +1,6 @@
 package com.gremio.service.interfaces;
 
-import com.gremio.model.dto.UserDetailsDto;
+import com.gremio.model.dto.response.archive.UserDetailsDto;
 import com.gremio.model.dto.UserDto;
 import com.gremio.persistence.entity.User;
 import java.util.Optional;

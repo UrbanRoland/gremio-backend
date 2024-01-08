@@ -1,4 +1,4 @@
-package com.gremio.model.dto;
+package com.gremio.model.dto.response.archive;
 
 import com.gremio.enums.RoleType;
 import lombok.AllArgsConstructor;

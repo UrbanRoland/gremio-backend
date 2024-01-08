@@ -3,9 +3,13 @@ package com.gremio.controller;
 import com.gremio.facade.UserFacade;
 import com.gremio.model.dto.EmailDto;
 import com.gremio.model.dto.UserDto;
+import com.gremio.model.dto.response.archive.PageableResponse;
 import com.gremio.persistence.entity.User;
+import com.gremio.repository.UserRepository;
 import com.gremio.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +21,8 @@ public class UserController {
 
     private final UserService userService;
     private final UserFacade userFacade;
+    
+    private final UserRepository userRepository;
 
     /**
      * Update an existing user.
@@ -51,4 +57,16 @@ public class UserController {
     public String resetPassword(@Argument final UserDto userDto) {
        return userFacade.resetPassword(userDto.password(), userDto.token());
     }
+
+    /**
+     * Retrieves all users from the system.
+     * @return Existing users.
+     */
+    @MutationMapping
+    public Page<User> allUsersPaged(@Argument final int page, @Argument final int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return userRepository.findAll(pageRequest);
+    }
+    
+    
 }

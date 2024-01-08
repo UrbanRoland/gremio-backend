@@ -1,4 +1,4 @@
-package com.gremio.persistence.specification;
+package com.gremio.persistence.specification.archive;
 
 import com.gremio.model.dto.filter.TaskFilter;
 import com.gremio.persistence.entity.Task;

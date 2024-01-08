@@ -2,7 +2,6 @@ scalar LocalDateTime
 
 type Query {
     findAllTasksByTitle(title: String, first: Int, after: String, last: Int, before: String): TaskConnection
-
 }
 
 type Mutation {
@@ -13,6 +12,7 @@ type Mutation {
     updateUserData(user: UserDto): User
     forgotPassword(emailDto: EmailDto!): String
     resetPassword(userDto: UserDto): String
+    allUsersPaged(page: Int, size: Int): [User]
 }
 
 type AuthResponse {
@@ -21,4 +21,12 @@ type AuthResponse {
     accessToken: String
     refreshToken: String
     role: RoleType
+}
+
+type PageableResponse {
+    items: [User]
+    totalPages: Int
+    currentPage: Int
+    totalItems: Int
+    size: Int
 }

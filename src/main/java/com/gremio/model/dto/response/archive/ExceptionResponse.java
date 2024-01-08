@@ -1,4 +1,4 @@
-package com.gremio.model.dto.response;
+package com.gremio.model.dto.response.archive;
 
 import com.gremio.message.MessageKey;
 import lombok.AllArgsConstructor;

@@ -2,7 +2,7 @@ type User {
     id: ID!
     firstName: String
     lastName: String
-    email: String
+    email: String @auth(role : "ROLE_ADMIN")
     password: String
     refreshToken: String
     passwordResetToken: PasswordResetToken

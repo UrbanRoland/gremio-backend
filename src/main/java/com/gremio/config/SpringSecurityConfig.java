@@ -1,7 +1,7 @@
 package com.gremio.config;
 
-import com.gremio.jwt.archive.AuthenticationProcessingFilter;
 import com.gremio.jwt.JwtAuthTokenFilter;
+import com.gremio.jwt.archive.AuthenticationProcessingFilter;
 import com.gremio.service.interfaces.JwtService;
 import com.gremio.service.interfaces.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -55,7 +55,7 @@ public class SpringSecurityConfig {
 
         return authProvider;
     }
-    
+
     @Bean
     public AuthenticationManager authenticationManager(
             final AuthenticationConfiguration authConfig) throws Exception {

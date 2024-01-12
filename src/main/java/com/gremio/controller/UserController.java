@@ -3,7 +3,6 @@ package com.gremio.controller;
 import com.gremio.facade.UserFacade;
 import com.gremio.model.dto.EmailDto;
 import com.gremio.model.dto.UserDto;
-import com.gremio.model.dto.response.archive.PageableResponse;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
 import com.gremio.service.interfaces.UserService;

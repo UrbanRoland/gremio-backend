@@ -37,8 +37,7 @@ public class AuthorisationDirective implements SchemaDirectiveWiring {
             }
         };
 
-        //todo remove deprecated code
-        environment.getCodeRegistry().dataFetcher(parentType, field, authDataFetcher);
+        environment.getCodeRegistry().dataFetcher(coordinates, authDataFetcher);
         return field;
     }
 

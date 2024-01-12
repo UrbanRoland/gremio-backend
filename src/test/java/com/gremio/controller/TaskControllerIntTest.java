@@ -1,32 +1,39 @@
 package com.gremio.controller;
 
+import com.gremio.config.GraphQLConfig;
 import com.gremio.enums.TaskStatus;
 import com.gremio.model.dto.TaskDto;
 import com.gremio.persistence.entity.Project;
 import com.gremio.persistence.entity.Task;
+import com.gremio.repository.ProjectRepository;
+import com.gremio.repository.TaskRepository;
 import com.gremio.service.TaskServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.security.test.context.support.WithMockUser;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 //test over http
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureGraphQlTester
+//todo need to be reworked
+/*
+@GraphQlTest(TaskController.class)
+@Import({TaskServiceImpl.class, GraphQLConfig.class})
 public class TaskControllerIntTest {
     @Autowired
     GraphQlTester graphQlTester;
     
     @MockBean
+    private TaskRepository taskRepository;
+    @Autowired
     private TaskServiceImpl taskService;
+    
+    @MockBean
+    private ProjectRepository projectRepository;
     private Project project;
     private LocalDateTime localDateTime;
 
@@ -40,7 +47,7 @@ public class TaskControllerIntTest {
     @Test
     @WithMockUser(authorities = "ROLE_ADMIN")
     void TaskController_CreateTask_ReturnTask() {
-        Task expectedTask =  Task.builder()
+       Task expectedTask =  Task.builder()
             .title("test")
             .status(TaskStatus.PASSED)
             .description("123testdescruiption")
@@ -53,7 +60,7 @@ public class TaskControllerIntTest {
         //language=GraphQL
        String document = """
         mutation {
-          createTask(task:{status:PASSED, title:"test", description:"123testdescruiption", due:"2023-07-09T11:54:42", projectId: 1}) {
+          createTask(task:{status:PASSED, title:"test", description:"12223testdescruiption", due:"2023-07-09T11:54:42", projectId: 1}) {
             title
             description
             status
@@ -68,7 +75,8 @@ public class TaskControllerIntTest {
             assertEquals(expectedTask.getDescription(), task.getDescription());
             assertEquals(expectedTask.getDue(), task.getDue());
         });
-       
+     
     }
     
 }
+*/

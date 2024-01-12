@@ -1,19 +1,15 @@
 package com.gremio.config;
 
-import com.gremio.directive.AuthorisationDirective;
 import com.gremio.jwt.archive.AuthenticationProcessingFilter;
 import com.gremio.jwt.JwtAuthTokenFilter;
 import com.gremio.service.interfaces.JwtService;
 import com.gremio.service.interfaces.UserService;
-import graphql.scalars.ExtendedScalars;
-import graphql.schema.idl.RuntimeWiring;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -65,16 +61,6 @@ public class SpringSecurityConfig {
             final AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-    
-    @Bean
-    public RuntimeWiringConfigurer runtimeWiringConfigurer() {
-        return wiringBuilder -> wiringBuilder
-            .scalar(ExtendedScalars.Date)
-            .scalar(ExtendedScalars.DateTime)
-            .scalar(ExtendedScalars.LocalTime)
-            .directive("auth", new AuthorisationDirective());
-    }
-
 
     @Bean
     protected SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {

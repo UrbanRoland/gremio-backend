@@ -1,5 +1,5 @@
 # Gremio API
-[![Build Status](https://img.shields.io/circleci/project/github/UrbanRoland/gremio-backend/master.svg)](https://circleci.com/gh/UrbanRoland/gremio-backend)
+[![UrbanRoland](https://circleci.com/gh/UrbanRoland/gremio-backend.svg?style=svg)](<LINK>)
 
 ## Table of Contents
 

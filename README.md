@@ -7,11 +7,6 @@
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [GraphQL](#graphql)
-- [Zipkin](#zipkin)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Overview
 
@@ -44,3 +39,15 @@ Make sure you have the following installed before starting:
 
    ```bash
    git clone https://github.com/UrbanRoland/gremio-backend.git
+   
+3. Run docker-compose:
+
+   ```bash
+   docker-compose up
+   ```
+   
+4. Run the application:
+
+   ```bash
+   ./gradlew bootRun
+   ```

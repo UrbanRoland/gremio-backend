@@ -1,7 +1,6 @@
 package com.gremio.controller;
 
 import com.gremio.facade.UserFacade;
-import com.gremio.model.input.EmailInput;
 import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
@@ -38,12 +37,12 @@ public class UserController {
     /**
      * Sends a password reset email to the user with the given email address.
      *
-     * @param emailInput The email address of the user to send the password reset email to.
+     * @param email The email address of the user to send the password reset email to.
      * @return A string indicating the result of the operation.
      */
     @MutationMapping
-    public String forgotPassword(@Argument final EmailInput emailInput) {
-        return userFacade.forgotPassword(emailInput.email());
+    public String forgotPassword(@Argument final String email) {
+        return userFacade.forgotPassword(email);
     }
 
     /**

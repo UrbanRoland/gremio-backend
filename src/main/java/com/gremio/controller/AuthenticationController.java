@@ -2,7 +2,6 @@ package com.gremio.controller;
 
 import com.gremio.facade.UserFacade;
 import com.gremio.model.dto.response.AuthResponse;
-import com.gremio.model.input.TokenRefreshInput;
 import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.service.interfaces.JwtService;
@@ -33,12 +32,12 @@ public class AuthenticationController {
     /**
      * Refreshes the authentication token using the provided refresh token.
      *
-     * @param tokenRequest The TokenRefreshRequest containing the refresh token.
+     * @param refreshToken The refresh token to use for refreshing the authentication token.
      * @return An AuthResponse containing the new access token if successful, or null if the user is not found.
      */
     @MutationMapping
-    public AuthResponse refreshToken(@Argument final TokenRefreshInput tokenRequest) {
-        return jwtService.refreshAuthToken(tokenRequest.refreshToken());
+    public AuthResponse refreshToken(@Argument final String refreshToken) {
+        return jwtService.refreshAuthToken(refreshToken);
     }
 
     /**

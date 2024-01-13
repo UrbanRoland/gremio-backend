@@ -25,11 +25,3 @@ input UserInput {
     lastName: String
     token: String
 }
-
-input TokenRefreshInput {
-    refreshToken: String!
-}
-
-input EmailInput {
-    email: String!
-}

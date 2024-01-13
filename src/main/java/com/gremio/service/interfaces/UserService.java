@@ -1,7 +1,7 @@
 package com.gremio.service.interfaces;
 
+import com.gremio.model.input.UserInput;
 import com.gremio.model.dto.response.archive.UserDetailsDto;
-import com.gremio.model.dto.UserDto;
 import com.gremio.persistence.entity.User;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -32,7 +32,7 @@ public interface UserService extends UserDetailsService {
      * @param user containing the user details to create.
      * @return The newly created user.
      */
-    User create(UserDto user);
+    User create(UserInput user);
 
     /**
      * Saves the user in the system.
@@ -55,5 +55,5 @@ public interface UserService extends UserDetailsService {
      * @param userInput The user input.
      * @return the updated user
      */
-    User update(UserDto userInput);
+    User update(UserInput userInput);
 }

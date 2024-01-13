@@ -1,8 +1,8 @@
 package com.gremio.controller;
 
 import com.gremio.facade.UserFacade;
-import com.gremio.model.dto.EmailDto;
-import com.gremio.model.dto.UserDto;
+import com.gremio.model.input.EmailInput;
+import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
 import com.gremio.service.interfaces.UserService;
@@ -31,7 +31,7 @@ public class UserController {
      */
     @MutationMapping
     @PreAuthorize("isAuthenticated()")
-    public User updateUserData(@Argument final UserDto user) {
+    public User updateUserData(@Argument final UserInput user) {
         return userService.update(user);
     }
 
@@ -42,7 +42,7 @@ public class UserController {
      * @return A string indicating the result of the operation.
      */
     @MutationMapping
-    public String forgotPassword(@Argument final EmailDto emailDto) {
+    public String forgotPassword(@Argument final EmailInput emailDto) {
        return userFacade.forgotPassword(emailDto.email());
     }
 
@@ -53,7 +53,7 @@ public class UserController {
      * @return A string indicating the result of the operation.
      */
     @MutationMapping
-    public String resetPassword(@Argument final UserDto userDto) {
+    public String resetPassword(@Argument final UserInput userDto) {
        return userFacade.resetPassword(userDto.password(), userDto.token());
     }
 
@@ -66,6 +66,5 @@ public class UserController {
         PageRequest pageRequest = PageRequest.of(page, size);
         return userRepository.findAll(pageRequest);
     }
-    
-    
+
 }

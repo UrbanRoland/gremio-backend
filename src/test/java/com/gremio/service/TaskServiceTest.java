@@ -1,6 +1,6 @@
 package com.gremio.service;
 
-import com.gremio.model.dto.TaskDto;
+import com.gremio.model.input.TaskInput;
 import com.gremio.persistence.entity.Project;
 import com.gremio.persistence.entity.Task;
 import com.gremio.repository.ProjectRepository;
@@ -36,7 +36,7 @@ public class TaskServiceTest {
     
     @Test
     public void TaskService_AddTask_ReturnTask() {
-        final TaskDto taskDto = TaskDto.builder()
+        final TaskInput taskDto = TaskInput.builder()
             .title("test")
             .due(LocalDateTime.now())
             .build();

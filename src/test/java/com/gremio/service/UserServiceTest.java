@@ -3,7 +3,7 @@ package com.gremio.service;
 import com.gremio.enums.RoleType;
 import com.gremio.exception.NotFoundException;
 import com.gremio.model.dto.response.archive.UserDetailsDto;
-import com.gremio.model.dto.UserDto;
+import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
 import jakarta.validation.ValidationException;
@@ -42,7 +42,7 @@ public class UserServiceTest {
     private PasswordEncoder passwordEncoder;
     
     private User user;
-    private UserDto userDto;
+    private UserInput userDto;
 
     @BeforeEach
     public void init() {
@@ -55,7 +55,7 @@ public class UserServiceTest {
         
         user.setId(1L);
         
-        this.userDto = UserDto.builder()
+        this.userDto = UserInput.builder()
             .password("Test12345676")
             .role(RoleType.ROLE_READ_ONLY)
             .id(1L)
@@ -102,7 +102,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.findUserByEmail(Mockito.anyString())).thenReturn(null);
         Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn("encodedPassword");
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
-        Mockito.when(conversionService.convert(Mockito.any(UserDto.class), Mockito.eq(User.class))).thenReturn(user);
+        Mockito.when(conversionService.convert(Mockito.any(UserInput.class), Mockito.eq(User.class))).thenReturn(user);
         
         final User savedUser = userService.create(userDto);
         

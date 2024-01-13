@@ -1,6 +1,6 @@
 package com.gremio.service;
 
-import com.gremio.model.dto.TaskDto;
+import com.gremio.model.input.TaskInput;
 import com.gremio.persistence.entity.Project;
 import com.gremio.persistence.entity.Task;
 import com.gremio.repository.ProjectRepository;
@@ -24,7 +24,7 @@ public class TaskServiceImpl implements TaskService {
      * {@inheritDoc}
      */
     @Override
-    public Task addTask(final TaskDto task) {
+    public Task addTask(final TaskInput task) {
 
         final Project project = projectRepository.findById(task.projectId()).orElse(null);
 

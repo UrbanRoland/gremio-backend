@@ -1,23 +1,5 @@
 package com.gremio.controller;
 
-import com.gremio.config.GraphQLConfig;
-import com.gremio.enums.TaskStatus;
-import com.gremio.model.dto.TaskDto;
-import com.gremio.persistence.entity.Project;
-import com.gremio.persistence.entity.Task;
-import com.gremio.repository.ProjectRepository;
-import com.gremio.repository.TaskRepository;
-import com.gremio.service.TaskServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.graphql.test.tester.GraphQlTester;
-import org.springframework.security.test.context.support.WithMockUser;
-import java.time.LocalDateTime;
-
 //test over http
 //todo need to be reworked
 /*

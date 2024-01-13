@@ -4,7 +4,7 @@ import com.gremio.enums.RoleType;
 import com.gremio.exception.NotFoundException;
 import com.gremio.message.NotFoundMessageKey;
 import com.gremio.model.dto.response.archive.UserDetailsDto;
-import com.gremio.model.dto.UserDto;
+import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
 import com.gremio.service.interfaces.UserService;
@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    
     private final ConversionService conversionService;
 
     /**
@@ -61,7 +60,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User create(final UserDto userInput) {
+    public User create(final UserInput userInput) {
         final User user = conversionService.convert(userInput, User.class);
 
         if (user == null || userRepository.findUserByEmail(user.getEmail()) != null) {
@@ -95,7 +94,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User update(final UserDto userInput) {
+    public User update(final UserInput userInput) {
         final User user = userRepository.getReferenceById(userInput.id());
 
         if (userInput.email() != null && !userInput.email().equals("")) {

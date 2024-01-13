@@ -4,8 +4,8 @@ import com.gremio.enums.UserMessageKey;
 import com.gremio.exception.NotFoundException;
 import com.gremio.exception.UserException;
 import com.gremio.message.NotFoundMessageKey;
-import com.gremio.model.dto.UserDto;
 import com.gremio.model.dto.response.AuthResponse;
+import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.PasswordResetToken;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.PasswordResetTokenRepository;
@@ -35,7 +35,7 @@ public class UserFacadeImpl implements  UserFacade {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -49,10 +49,10 @@ public class UserFacadeImpl implements  UserFacade {
         final String token = generateToken();
         createPasswordResetTokenForUser(user, token);
         emailService.forgotPasswordEmail(user.getEmail(), "Reset Password", "resetPassword", token, user.getUsername());
-    
+
         return "Email sent successfully";
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -95,7 +95,7 @@ public class UserFacadeImpl implements  UserFacade {
      * {@inheritDoc}
      */
     @Override
-    public User userRegistration(final UserDto user) {
+    public User userRegistration(final UserInput user) {
         return userService.create(user);
     }
     

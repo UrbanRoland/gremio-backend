@@ -1,4 +1,4 @@
-package com.gremio.model.dto;
+package com.gremio.model.input;
 
 public record TokenRefreshInput(String refreshToken) {
 }

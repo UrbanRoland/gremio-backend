@@ -6,13 +6,13 @@ type Query {
 }
 
 type Mutation {
-    createTask(task: TaskDto!): Task
+    createTask(task: TaskInput!): Task
     login(email: String!, password: String!): AuthResponse
-    registration(user: UserDto): User
+    registration(user: UserInput): User
     refreshToken(tokenRequest: TokenRefreshInput!): AuthResponse
-    updateUserData(user: UserDto): User
-    forgotPassword(emailDto: EmailDto!): String
-    resetPassword(userDto: UserDto): String
+    updateUserData(user: UserInput): User
+    forgotPassword(emailInput: EmailInput!): String
+    resetPassword(userDto: UserInput): String
     allUsersPaged(page: Int, size: Int): [User]
 }
 

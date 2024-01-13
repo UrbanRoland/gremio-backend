@@ -16,7 +16,7 @@ enum RoleType {
     ROLE_ADMIN
 }
 
-input UserDto {
+input UserInput {
     id: ID
     email: String
     password: String
@@ -30,6 +30,6 @@ input TokenRefreshInput {
     refreshToken: String!
 }
 
-input EmailDto {
+input EmailInput {
     email: String!
 }

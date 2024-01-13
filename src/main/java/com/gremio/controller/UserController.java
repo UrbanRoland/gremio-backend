@@ -38,23 +38,23 @@ public class UserController {
     /**
      * Sends a password reset email to the user with the given email address.
      *
-     * @param emailDto The email address of the user to send the password reset email to.
+     * @param emailInput The email address of the user to send the password reset email to.
      * @return A string indicating the result of the operation.
      */
     @MutationMapping
-    public String forgotPassword(@Argument final EmailInput emailDto) {
-       return userFacade.forgotPassword(emailDto.email());
+    public String forgotPassword(@Argument final EmailInput emailInput) {
+        return userFacade.forgotPassword(emailInput.email());
     }
 
     /**
      * Resets a user's password.
      *
-     * @param userDto The user input.
+     * @param userInput The user input.
      * @return A string indicating the result of the operation.
      */
     @MutationMapping
-    public String resetPassword(@Argument final UserInput userDto) {
-       return userFacade.resetPassword(userDto.password(), userDto.token());
+    public String resetPassword(@Argument final UserInput userInput) {
+        return userFacade.resetPassword(userInput.password(), userInput.token());
     }
 
     /**

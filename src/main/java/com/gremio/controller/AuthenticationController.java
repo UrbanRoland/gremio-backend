@@ -1,9 +1,9 @@
 package com.gremio.controller;
 
 import com.gremio.facade.UserFacade;
+import com.gremio.model.dto.response.AuthResponse;
 import com.gremio.model.input.TokenRefreshInput;
 import com.gremio.model.input.UserInput;
-import com.gremio.model.dto.response.AuthResponse;
 import com.gremio.persistence.entity.User;
 import com.gremio.service.interfaces.JwtService;
 import jakarta.validation.constraints.NotEmpty;

@@ -36,7 +36,7 @@ input TaskFilter {
     status: TaskStatus
 }
 
-input TaskDto {
+input TaskInput {
     title: String
     due: LocalDateTime
     projectId: ID

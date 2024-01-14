@@ -5,6 +5,7 @@ import com.gremio.model.dto.response.AuthResponse;
 import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.service.interfaces.JwtService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -25,7 +26,7 @@ public class AuthenticationController {
      * @return The UserDetailsDto of the newly created user.
      */
     @MutationMapping
-    public User registration(@Argument final UserInput user) {
+    public User registration(@Argument @Valid final UserInput user) {
         return userFacade.userRegistration(user);
     }
 
@@ -36,7 +37,7 @@ public class AuthenticationController {
      * @return An AuthResponse containing the new access token if successful, or null if the user is not found.
      */
     @MutationMapping
-    public AuthResponse refreshToken(@Argument final String refreshToken) {
+    public AuthResponse refreshToken(@Argument @NotEmpty final String refreshToken) {
         return jwtService.refreshAuthToken(refreshToken);
     }
 
@@ -48,7 +49,7 @@ public class AuthenticationController {
      * @return An AuthResponse containing the access token and refresh token.
      */
     @MutationMapping
-    public AuthResponse login(@NotEmpty @Argument final String email, @NotEmpty @Argument final String password) {
+    public AuthResponse login(@Argument @NotEmpty final String email, @Argument @NotEmpty final String password) {
         return userFacade.login(email, password);
     }
 

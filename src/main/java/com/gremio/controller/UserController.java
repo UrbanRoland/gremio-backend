@@ -5,6 +5,8 @@ import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
 import com.gremio.service.interfaces.UserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +32,7 @@ public class UserController {
      */
     @MutationMapping
     @PreAuthorize("isAuthenticated()")
-    public User updateUserData(@Argument final UserInput user) {
+    public User updateUserData(@Argument @Valid final UserInput user) {
         return userService.update(user);
     }
 
@@ -41,7 +43,7 @@ public class UserController {
      * @return A string indicating the result of the operation.
      */
     @MutationMapping
-    public String forgotPassword(@Argument final String email) {
+    public String forgotPassword(@Argument @NotEmpty final String email) {
         return userFacade.forgotPassword(email);
     }
 

@@ -3,6 +3,7 @@ package com.gremio.controller;
 import com.gremio.model.input.TaskInput;
 import com.gremio.persistence.entity.Task;
 import com.gremio.service.interfaces.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Window;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -25,7 +26,7 @@ public class TaskController {
      */
     @PreAuthorize("!hasAuthority('ROLE_READ_ONLY')")
     @MutationMapping
-    public Task createTask(@Argument final TaskInput task) {
+    public Task createTask(@Argument @Valid final TaskInput task) {
         return taskService.addTask(task);
     }
 

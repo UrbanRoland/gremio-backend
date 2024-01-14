@@ -1,10 +1,13 @@
 package com.gremio.controller;
 
+import com.gremio.model.dto.filter.TaskFilter;
+import com.gremio.model.dto.response.archive.PageableResponse;
 import com.gremio.model.input.TaskInput;
 import com.gremio.persistence.entity.Task;
 import com.gremio.service.interfaces.TaskService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Window;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -14,9 +17,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 @Controller
-@RequiredArgsConstructor
-public class TaskController {
+public class TaskController extends AbstractController {
     private final TaskService taskService;
+
+    TaskController(final TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     /**
      * Creates a new task and adds it to the system.
@@ -41,4 +47,10 @@ public class TaskController {
         return taskService.findAllTasksByTitle(title, subrange);
     }
 
+    //todo pageable data should be retrieved from the request
+    @QueryMapping
+    PageableResponse<Task> findTasksByFilter(@Argument final TaskFilter taskFilter) {
+        final Pageable pageable = PageRequest.of(0, 10);
+        return  this.getPageableResponse(taskService.findTasksByFilter(taskFilter, pageable));
+    }
 }

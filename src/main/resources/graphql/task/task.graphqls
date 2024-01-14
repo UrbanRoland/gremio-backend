@@ -1,4 +1,5 @@
 type Task {
+    id: ID!
     assignee: [User]
     title: String!
     due: LocalDateTime

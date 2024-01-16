@@ -2,7 +2,6 @@ package com.gremio.service;
 
 import com.gremio.enums.RoleType;
 import com.gremio.exception.NotFoundException;
-import com.gremio.model.dto.response.archive.UserDetailsDto;
 import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
@@ -16,15 +15,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -65,29 +57,7 @@ public class UserServiceTest {
             .build();
         
     }
-    @Test
-    public void UserService_GetAllUser_ReturnsUserDetailsPage() {
-        Pageable pageable = PageRequest.of(0, 10);
-        List<User> users = Arrays.asList(user, user);
-        Page<User> userPage = new PageImpl<>(users);
-        List<UserDetailsDto> userDetails = Arrays.asList(new UserDetailsDto(), new UserDetailsDto());
-        Page<UserDetailsDto> expectedPage = new PageImpl<>(userDetails);
-        
-        Mockito.when(userRepository.findAll(pageable)).thenReturn(userPage);
-        
-        Mockito.when(conversionService.convert(Mockito.any(User.class), Mockito.eq(UserDetailsDto.class)))
-                .thenReturn(new UserDetailsDto());
-        
-        Page<UserDetailsDto> actualPage = userService.getAllUser(pageable);
-        
-        Assertions.assertEquals(expectedPage, actualPage);
-        
-        Mockito.verify(userRepository).findAll(pageable);
-        
-        Mockito.verify(conversionService, Mockito.times(users.size()))
-                .convert(Mockito.any(User.class), Mockito.eq(UserDetailsDto.class));
 
-    }
     @Test
     public void UserService_FindUserByEmail_ReturnsUser() {
         Mockito.when(userRepository.findUserByEmail(Mockito.anyString())).thenReturn(user);
@@ -116,37 +86,6 @@ public class UserServiceTest {
         Assertions.assertThrows(ValidationException.class, () -> userService.create(userDto));
     }
 
-    @Test
-    public void UserService_FindUserById_ReturnsOptionalUser() {
-        final UserDetailsDto userDetailsDto = UserDetailsDto.builder()
-            .id(user.getId())
-            .build();
-
-        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(user));
-        Mockito.when(conversionService.convert(user, UserDetailsDto.class)).thenReturn(userDetailsDto);
-    
-        Optional<UserDetailsDto> existsUser = userService.findById(user.getId());
-    
-        Assertions.assertTrue(existsUser.isPresent());
-        Assertions.assertEquals(userDetailsDto, existsUser.get());
-        Mockito.verify(userRepository).findById(user.getId());
-        
-    }
-    
-    @Test
-    public void UserService_FindUserById_ReturnsEmptyOptional() {
-        final Long userId = 1L;
-        
-        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
-        
-        Optional<UserDetailsDto> existsUser = userService.findById(userId);
-    
-        Assertions.assertFalse(existsUser.isPresent());
-    
-        Mockito.verify(userRepository).findById(userId);
-        Mockito.verifyNoInteractions(conversionService);
-        
-    }
     @Test
     public void UserService_LoadUserByUserName_ReturnsUserDetails() {
         Mockito.when(userRepository.findUserByEmail(user.getEmail())).thenReturn(user);

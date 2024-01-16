@@ -1,31 +1,12 @@
 scalar LocalDateTime
 directive @auth(role : String!) on FIELD_DEFINITION
 
-type Query {
-    findAllTasksByTitle(title: String, first: Int, after: String, last: Int, before: String): TaskConnection
-    findTasksByFilter(taskFilter: TaskFilter): PageableResponse
-}
+type Query{}
 
-type Mutation {
-    createTask(task: TaskInput!): Task
-    login(email: String!, password: String!): AuthResponse
-    registration(user: UserInput): User
-    refreshToken(refreshToken: String!): AuthResponse
-    updateUserData(user: UserInput): User
-    forgotPassword(email: String!): String
-    resetPassword(userDto: UserInput): String
-    allUsersPaged(page: Int, size: Int): [User]
-}
-
-type AuthResponse {
-    id: ID
-    email: String
-    accessToken: String
-    refreshToken: String
-    role: RoleType
-}
+type Mutation {}
 
 union PageableItem = Task | User | Project
+
 type PageableResponse{
     items: [PageableItem]
     totalPages: Int

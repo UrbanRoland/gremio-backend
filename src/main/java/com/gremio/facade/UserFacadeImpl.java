@@ -140,12 +140,11 @@ public class UserFacadeImpl implements  UserFacade {
                 new ArrayList<>())
         );
 
+        user.setRefreshToken(jwtService.generateRefreshToken(user));
+        userService.save(user);
+
         return AuthResponse.builder()
-            .id(user.getId())
-            .email(user.getEmail())
             .accessToken(jwtService.generateToken(user))
-            .refreshToken(jwtService.generateRefreshToken(user))
-            .role(user.getRole())
             .build();
     }
 

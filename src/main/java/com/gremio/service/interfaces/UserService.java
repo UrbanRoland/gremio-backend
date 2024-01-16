@@ -1,11 +1,7 @@
 package com.gremio.service.interfaces;
 
 import com.gremio.model.input.UserInput;
-import com.gremio.model.dto.response.archive.UserDetailsDto;
 import com.gremio.persistence.entity.User;
-import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
@@ -17,14 +13,6 @@ public interface UserService extends UserDetailsService {
      * @return The user with the provided email, or null if not found.
      */
     User findUserByEmail(String email);
-
-    /**
-     * Finds the user with the given ID and converts it to UserDetailsDto.
-     *
-     * @param id The ID of the user to find.
-     * @return An optional containing UserDetailsDto if the user is found, empty otherwise.
-     */
-    Optional<UserDetailsDto> findById(Long id);
 
     /**
      * Creates a new user in the system.
@@ -40,14 +28,6 @@ public interface UserService extends UserDetailsService {
      * @param user The user object to save.
      */
     void save(User user);
-
-    /**
-     * Retrieves a page of users with UserDetailsDto format.
-     *
-     * @param pageable The pagination information.
-     * @return A page of UserDetailsDto objects.
-     */
-    Page<UserDetailsDto> getAllUser(Pageable pageable);
 
     /**
      * update user data.

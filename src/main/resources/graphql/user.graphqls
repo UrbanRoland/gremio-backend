@@ -1,3 +1,10 @@
+extend type Mutation {
+    allUsersPaged(page: Int, size: Int): [User]
+    updateUserData(user: UserInput): User
+    forgotPassword(email: String!): String
+    resetPassword(userInput: UserInput): String
+}
+
 type User {
     id: ID!
     firstName: String
@@ -18,8 +25,8 @@ enum RoleType {
 
 input UserInput {
     id: ID
-    email: String
-    password: String
+    email: String!
+    password: String!
     role: RoleType
     firstName: String
     lastName: String

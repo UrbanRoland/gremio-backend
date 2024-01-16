@@ -3,7 +3,6 @@ package com.gremio.service;
 import com.gremio.enums.RoleType;
 import com.gremio.exception.NotFoundException;
 import com.gremio.message.NotFoundMessageKey;
-import com.gremio.model.dto.response.archive.UserDetailsDto;
 import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
@@ -13,8 +12,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,14 +49,6 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public Optional<UserDetailsDto> findById(final Long id) {
-        return userRepository.findById(id).map(user -> conversionService.convert(user, UserDetailsDto.class));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public User create(final UserInput userInput) {
         final User user = conversionService.convert(userInput, User.class);
 
@@ -80,14 +69,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(final User user) {
         userRepository.save(user);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<UserDetailsDto> getAllUser(final Pageable pageable) {
-       return userRepository.findAll(pageable).map(user -> conversionService.convert(user, UserDetailsDto.class));
     }
 
     /**

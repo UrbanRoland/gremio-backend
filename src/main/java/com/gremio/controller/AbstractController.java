@@ -1,6 +1,6 @@
 package com.gremio.controller;
 
-import com.gremio.model.dto.response.archive.PageableResponse;
+import com.gremio.model.dto.response.PageableResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 

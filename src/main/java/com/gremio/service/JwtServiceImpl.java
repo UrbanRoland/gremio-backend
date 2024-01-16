@@ -49,7 +49,8 @@ public class JwtServiceImpl implements JwtService {
      */
     @Override
     public String generateToken(final UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        return buildToken(new HashMap<>(), userDetails, jwtExpirationInMinutes, getSignInKey());
+        //return generateToken(new HashMap<>(), userDetails);
     }
 
     /**
@@ -76,12 +77,7 @@ public class JwtServiceImpl implements JwtService {
     public AuthResponse refreshAuthToken(final String token) {
         final User user = userService.findUserByEmail(extractUsernameForRefreshToken(token));
 
-        final AuthResponse authResponse = conversionService.convert(user, AuthResponse.class);
-
-        if (authResponse != null) {
-            authResponse.setAccessToken(this.generateToken(user));
-        }
-        return authResponse;
+        return (user != null) ? AuthResponse.builder().accessToken(generateToken(user)).build() : null;
     }
 
     private String buildToken(
@@ -105,13 +101,10 @@ public class JwtServiceImpl implements JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private String generateToken(
-        final Map<String, Object> extraClaims,
-        final UserDetails userDetails
-    ) {
+   /* private String generateToken(final Map<String, Object> extraClaims, final UserDetails userDetails) {
         return buildToken(extraClaims, userDetails, jwtExpirationInMinutes, getSignInKey());
     }
-
+*/
     private String generateRefreshToken(
         final Map<String, Object> extraClaims,
         final UserDetails userDetails

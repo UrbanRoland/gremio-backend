@@ -1,7 +1,7 @@
 package com.gremio.controller;
 
 import com.gremio.model.dto.filter.TaskFilter;
-import com.gremio.model.dto.response.archive.PageableResponse;
+import com.gremio.model.dto.response.PageableResponse;
 import com.gremio.model.input.TaskInput;
 import com.gremio.persistence.entity.Task;
 import com.gremio.service.interfaces.TaskService;

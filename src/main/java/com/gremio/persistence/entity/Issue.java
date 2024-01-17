@@ -1,6 +1,7 @@
 package com.gremio.persistence.entity;
 
-import com.gremio.enums.TaskStatus;
+import com.gremio.enums.Priority;
+import com.gremio.enums.IssueStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -8,7 +9,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +24,7 @@ import org.hibernate.envers.Audited;
 @Setter
 @Builder
 @AllArgsConstructor
-public class Task extends BaseEntity {
+public class Issue extends BaseEntity {
 
     @OneToMany
     private List<User> assignee;
@@ -34,5 +34,8 @@ public class Task extends BaseEntity {
     private Project project;
     private String description;
     @Enumerated(EnumType.STRING)
-    private TaskStatus status;
+    private IssueStatus status;
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
 }

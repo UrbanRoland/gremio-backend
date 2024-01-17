@@ -1,11 +1,11 @@
 scalar LocalDateTime
 directive @auth(role : String!) on FIELD_DEFINITION
 
-type Query{}
+type Query {}
 
 type Mutation {}
 
-union PageableItem = Task | User | Project
+union PageableItem = Issue | User | Project
 
 type PageableResponse{
     items: [PageableItem]

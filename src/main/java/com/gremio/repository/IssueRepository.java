@@ -1,6 +1,6 @@
 package com.gremio.repository;
 
-import com.gremio.persistence.entity.Task;
+import com.gremio.persistence.entity.Issue;
 import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.ScrollPosition;
 import org.springframework.data.domain.Sort;
@@ -10,7 +10,7 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, Long>, QuerydslPredicateExecutor<Task> {
+public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPredicateExecutor<Issue> {
 
-    Window<Task> findAllByTitle(String title, ScrollPosition position, Limit limit, Sort sort);
+    Window<Issue> findAllByTitle(String title, ScrollPosition position, Limit limit, Sort sort);
 }

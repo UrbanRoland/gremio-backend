@@ -1,10 +1,10 @@
 package com.gremio.service;
 
-import com.gremio.model.input.TaskInput;
+import com.gremio.model.input.IssueInput;
+import com.gremio.persistence.entity.Issue;
 import com.gremio.persistence.entity.Project;
-import com.gremio.persistence.entity.Task;
 import com.gremio.repository.ProjectRepository;
-import com.gremio.repository.TaskRepository;
+import com.gremio.repository.IssueRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,49 +25,49 @@ import java.util.Optional;
 
 
 @ExtendWith(MockitoExtension.class)
-public class TaskServiceTest {
+public class IssueServiceTest {
 
     @InjectMocks
-    private TaskServiceImpl taskService;
+    private IssueServiceImpl issueService;
     @Mock
-    private TaskRepository taskRepository;
+    private IssueRepository issueRepository;
     @Mock
     private ProjectRepository projectRepository;
     
     @Test
-    public void TaskService_AddTask_ReturnTask() {
-        final TaskInput taskDto = TaskInput.builder()
+    public void IssueService_AddIssue_ReturnIssue() {
+        final IssueInput issueInput = IssueInput.builder()
             .title("test")
             .due(LocalDateTime.now())
             .build();
         
-        final Project project = new Project(); // You need to create a Project instance here for the test
+        final Project project = new Project();
         
         Mockito.when(projectRepository.findById(Mockito.any())).thenReturn(Optional.of(project));
-        Mockito.when(taskRepository.save(Mockito.any())).thenReturn(new Task()); // You may need to create a Task instance here for the test
+        Mockito.when(issueRepository.save(Mockito.any())).thenReturn(new Issue());
         
-        Task savedTask = taskService.addTask(taskDto);
+        Issue savedIssue = issueService.addIssue(issueInput);
         
-        Assertions.assertNotNull(savedTask);
+        Assertions.assertNotNull(savedIssue);
     }
     
     @Test
-    public void TaskService_FindAllTasksByTitle_ReturnWindow() {
+    public void IssueService_FindAllIssuesByTitle_ReturnWindow() {
         String title = "Test";
         ScrollPosition position = ScrollPosition.offset();
         ScrollSubrange subrange = ScrollSubrange.create(position,10,true);
-        List<Task> items = Collections.singletonList(Task.builder().title("Test").build());
+        List<Issue> items = Collections.singletonList(Issue.builder().title("Test").build());
     
-        Window<Task> windowMock = Window.from(items, index -> position, true);
+        Window<Issue> windowMock = Window.from(items, index -> position, true);
         
-        Mockito.when(taskRepository.findAllByTitle(
+        Mockito.when(issueRepository.findAllByTitle(
             Mockito.eq(title),
             Mockito.any(ScrollPosition.class),
             Mockito.any(Limit.class),
             Mockito.any(Sort.class)
         )).thenReturn(windowMock);
 
-        Window<Task> resultWindow = taskService.findAllTasksByTitle(title, subrange);
+        Window<Issue> resultWindow = issueService.findAllIssuesByTitle(title, subrange);
 
         Assertions.assertNotNull(resultWindow);
         Assertions.assertEquals(1, resultWindow.getContent().size());

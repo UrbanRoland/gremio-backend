@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum TaskStatus {
+public enum IssueStatus {
 
     PASSED("PASSED"),
     FAILED("FAILED"),

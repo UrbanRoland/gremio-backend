@@ -1,35 +1,35 @@
 extend type Query {
-    findAllTasksByTitle(title: String, first: Int, after: String, last: Int, before: String): TaskConnection
-    findTasksByFilter(taskFilter: TaskFilter): PageableResponse
+    findAllIssuesByTitle(title: String, first: Int, after: String, last: Int, before: String): IssueConnection
+    findIssuesByFilter(issueFilter: IssueFilter): PageableResponse
 }
 
 extend type Mutation {
-    createTask(task: TaskInput!): Task
+    createIssue(issue: IssueInput!): Issue
 }
 
-type Task {
+type Issue {
     id: ID!
     assignee: [User]
     title: String!
     due: LocalDateTime
     project: Project
     description: String
-    status: TaskStatus
+    status: IssueStatus
 }
 
-enum TaskStatus {
+enum IssueStatus {
     PASSED
     FAILED
     REVIEW
 }
 
-type TaskConnection {
-    edges: [TaskEdge]!
+type IssueConnection {
+    edges: [IssueEdge]!
     pageInfo: PageInfo!
 }
 
-type TaskEdge {
-    node: Task!
+type IssueEdge {
+    node: Issue!
     cursor: String!
 }
 
@@ -40,16 +40,16 @@ type PageInfo {
     endCursor: String
 }
 
-input TaskFilter {
+input IssueFilter {
     title: String
     description: String
-    status: TaskStatus
+    status: IssueStatus
 }
 
-input TaskInput {
+input IssueInput {
     title: String
     due: LocalDateTime
     projectId: ID
     description: String
-    status: TaskStatus
+    status: IssueStatus
 }

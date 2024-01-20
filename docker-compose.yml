@@ -17,6 +17,16 @@ services:
       - gremio_psql_logs:/logs/postgres
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
 
+  cache:
+    image: "redis"
+    container_name: gremio_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+
   gremio_backend:
     build:
       context: .
@@ -33,6 +43,9 @@ services:
       - spring_app_logs:/app/logs
     depends_on:
       - postgres
+    environment:
+      SPRING_REDIS_HOST: cache
+      SPRING_REDIS_PORT: 6379
 
 networks:
   gremio:

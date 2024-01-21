@@ -1,6 +1,7 @@
 extend type Query {
     findAllIssuesByTitle(title: String, first: Int, after: String, last: Int, before: String): IssueConnection
     findIssuesByFilter(issueFilter: IssueFilter): PageableResponse
+    findIssueById(id:ID!): Issue
 }
 
 extend type Mutation {

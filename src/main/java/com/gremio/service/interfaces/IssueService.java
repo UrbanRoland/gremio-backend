@@ -31,4 +31,11 @@ public interface IssueService {
      * @return Existing issues with the given filter.
      */
     Page<Issue> findIssuesByFilter(IssueFilter issueFilter, Pageable pageable);
+
+    /**
+     * Retrieves the issue with the given id.
+     * @param id The id of the issue to retrieve.
+     * @return The issue with the given id.
+     */
+    Issue findIssueById(Long id);
 }

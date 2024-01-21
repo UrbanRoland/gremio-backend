@@ -56,6 +56,7 @@ dependencies {
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.2.1'
 	implementation group: 'redis.clients', name: 'jedis', version: '5.1.0'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	testImplementation 'org.springframework.graphql:spring-graphql-test:1.2.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'

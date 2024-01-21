@@ -1,5 +1,6 @@
 package com.gremio.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -37,6 +38,7 @@ public class Project extends BaseEntity {
     private String status;
     private String category;
     @OneToMany(mappedBy = "project")
+    @JsonBackReference
     private List<Issue> issues;
     @ManyToMany
     @JoinTable(

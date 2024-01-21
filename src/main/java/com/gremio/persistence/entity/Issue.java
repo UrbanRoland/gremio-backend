@@ -1,13 +1,13 @@
 package com.gremio.persistence.entity;
 
-import com.gremio.enums.Priority;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gremio.enums.IssueStatus;
+import com.gremio.enums.Priority;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -25,8 +25,8 @@ import org.hibernate.envers.Audited;
 @Builder
 @AllArgsConstructor
 public class Issue extends BaseEntity {
-
     @OneToMany
+    @JsonBackReference
     private List<User> assignee;
     private String title;
     private LocalDateTime due;

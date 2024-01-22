@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@CacheConfig(cacheNames = "customerCacheforIssue")
+@CacheConfig(cacheNames = "issueCache")
 public class IssueServiceImpl implements IssueService {
     private final IssueRepository issueRepository;
     private final ProjectRepository projectRepository;

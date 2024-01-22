@@ -41,14 +41,15 @@ public class IssueController extends AbstractController {
      * @param title The title to match.
      * @return Existing issues with the given title.
      */
-  //  @PreAuthorize("isAuthenticated()")
     @QueryMapping
+    @PreAuthorize("isAuthenticated()")
     public Window<Issue> findAllIssuesByTitle(@Argument final String title, final ScrollSubrange subrange) {
         return issueService.findAllIssuesByTitle(title, subrange);
     }
 
     //todo pageable data should be retrieved from the request
     @QueryMapping
+    @PreAuthorize("isAuthenticated()")
     PageableResponse<Issue> findIssuesByFilter(@Argument final IssueFilter issueFilter) {
         final Pageable pageable = PageRequest.of(0, 10);
         return  this.getPageableResponse(issueService.findIssuesByFilter(issueFilter, pageable));
@@ -60,6 +61,7 @@ public class IssueController extends AbstractController {
      * @return The issue with the given id.
      */
     @QueryMapping
+    @PreAuthorize("isAuthenticated()")
     public Issue findIssueById(@Argument final Long id) {
         return issueService.findIssueById(id);
     }

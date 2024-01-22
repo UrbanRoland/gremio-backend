@@ -5,6 +5,8 @@ type Query {}
 
 type Mutation {}
 
+type Subscription {}
+
 union PageableItem = Issue | User | Project
 
 type PageableResponse{

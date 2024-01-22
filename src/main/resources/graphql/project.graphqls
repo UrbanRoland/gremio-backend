@@ -16,6 +16,10 @@ extend type Mutation {
     createProject(project: ProjectInput): Project
 }
 
+extend type Subscription {
+    notifyProjectCreated : Project
+}
+
  input ProjectInput {
     name: String
     key: String

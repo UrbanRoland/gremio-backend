@@ -6,5 +6,6 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 
 @Builder
-public record IssueInput(@NotEmpty String title, LocalDateTime due, Long projectId, String description, IssueStatus status) {
+public record IssueInput(@NotEmpty String title, LocalDateTime due,
+                         Long projectId, String description, IssueStatus status) {
 }

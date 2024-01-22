@@ -1,4 +1,31 @@
 type Project {
-    id: ID!
-    name: String!
+    id: ID
+    name: String
+    key: String
+    projectLead: User
+    description: String
+    startDate: LocalDateTime
+    endDate: LocalDateTime
+    status: String
+    category: String
+    issues: [Issue]
+    teamMembers: [User]
+}
+
+extend type Mutation {
+    createProject(project: ProjectInput): Project
+}
+
+ input ProjectInput {
+    name: String
+    key: String
+    projectLead: UserInput
+    description: String
+    startDate: LocalDateTime
+    endDate: LocalDateTime
+    status: String
+    category: String
+    issues: [IssueInput]
+    teamMembers: [UserInput]
+
 }

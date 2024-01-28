@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
-        return Optional.ofNullable(userRepository.findUserByEmail(email)).orElseThrow(() -> new NotFoundException(NotFoundMessageKey.USER));
+        return Optional.ofNullable(userRepository.findUserByEmail(email).block()).orElseThrow(() -> new NotFoundException(NotFoundMessageKey.USER));
     }
 
     /**
@@ -45,17 +46,17 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User findUserByEmail(final String email) {
-        return userRepository.findUserByEmail(email);
+        return userRepository.findUserByEmail(email).block();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public User create(final UserInput userInput) {
+    public Mono<User> create(final UserInput userInput) {
         final User user = conversionService.convert(userInput, User.class);
 
-        if (user == null || userRepository.findUserByEmail(user.getEmail()) != null) {
+        if (user == null || userRepository.findUserByEmail(user.getEmail()).block() != null) {
             throw new ValidationException("Something went wrong! Please try again later.");
         }
 
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void save(final User user) {
-        userRepository.save(user);
+        userRepository.save(user).block();
     }
 
     /**
@@ -80,8 +81,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @CachePut(cacheNames = "updateUser", key = "#userInput.id()")
     public User update(final UserInput userInput) {
-        final User user = userRepository.getReferenceById(userInput.id());
+        final User user = userRepository.findById(userInput.id()).block();
 
+        if (user == null) {
+            throw new ValidationException("User not found!");
+        }
+        
         if (userInput.email() != null && !userInput.email().equals("")) {
             if (!userInput.email().equals(user.getEmail()) && userRepository.findUserByEmail(userInput.email()) != null) {
                 throw new ValidationException("Something went wrong! Please try again later.");
@@ -95,6 +100,6 @@ public class UserServiceImpl implements UserService {
 
         user.setRole(userInput.role());
 
-        return userRepository.save(user);
+        return userRepository.save(user).block();
     }
 }

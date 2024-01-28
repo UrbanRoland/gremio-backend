@@ -24,6 +24,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @Component
@@ -95,26 +96,30 @@ public class UserFacadeImpl implements  UserFacade {
      * {@inheritDoc}
      */
     @Override
-    public User userRegistration(final UserInput user) {
+    public Mono<User> userRegistration(final UserInput user) {
         return userService.create(user);
     }
     
     private String generateToken() {
         return UUID.randomUUID() + UUID.randomUUID().toString();
     }
-
+    
     private void createPasswordResetTokenForUser(final User user, final String token) {
-        final Optional<PasswordResetToken> optionalToken = resetTokenRepository.findByUserId(user.getId());
-
-        final PasswordResetToken passwordResetToken = optionalToken.orElseGet(() ->
-            PasswordResetToken.builder()
-               .user(user)
-               .build()
-        );
-
-        updateTokenAndDate(passwordResetToken, token);
-        resetTokenRepository.save(passwordResetToken);
+        resetTokenRepository.findByUserId(user.getId())
+            .switchIfEmpty(Mono.defer(() ->
+                Mono.just(PasswordResetToken.builder()
+                    .user(user)
+                    .build())
+            ))
+            .flatMap(existingToken -> {
+                existingToken.setToken(token);
+                return resetTokenRepository.save(existingToken);
+            })
+            .subscribe();
     }
+
+
+
     private void updateTokenAndDate(final PasswordResetToken passwordResetToken, final String token) {
         passwordResetToken.setToken(token);
         passwordResetToken.setCreationDate(LocalDateTime.now());

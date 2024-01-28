@@ -74,7 +74,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
         Mockito.when(conversionService.convert(Mockito.any(UserInput.class), Mockito.eq(User.class))).thenReturn(user);
         
-        final User savedUser = userService.create(userDto);
+        final User savedUser = userService.create(userDto).block();
         
         Assertions.assertNotNull(savedUser);
         Assertions.assertEquals("encodedPassword",savedUser.getPassword());

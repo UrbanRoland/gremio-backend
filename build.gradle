@@ -2,8 +2,22 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
-	id "org.flywaydb.flyway" version "9.8.1"
 	id 'jacoco'
+	id 'org.liquibase.gradle' version '2.2.0'
+}
+
+//todo rewrite this logic
+liquibase {
+	activities {
+		main {
+			changeLogFile 'src/main/resources/db/changelog/master.xml'
+			url 'jdbc:postgresql://localhost:5432/gremio-r2dbc'
+			username 'gremio'
+			password 'gremio'
+			driver 'org.postgresql.Driver'
+			referenceUrl 'hibernate:spring:your.package.to.entity?dialect=org.hibernate.dialect.PostgreSQLDialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy'
+		}
+	}
 }
 
 group = 'com.gremio'
@@ -24,17 +38,13 @@ repositories {
 }
 
 test {
-    useJUnitPlatform()
+	useJUnitPlatform()
 	finalizedBy jacocoTestReport
 }
 
 dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
-	annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
-	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
 	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-	implementation 'org.flywaydb:flyway-core:9.8.1'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.0.0'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
@@ -53,26 +63,21 @@ dependencies {
 	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
 	implementation group: 'org.springframework', name: 'spring-webflux', version: '6.1.2'
-	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.2.1'
 	implementation group: 'redis.clients', name: 'jedis', version: '5.1.0'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+	implementation 'org.liquibase:liquibase-core'
 	testImplementation 'org.springframework.graphql:spring-graphql-test:1.2.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
 	testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.2.1'
+	testImplementation 'io.projectreactor:reactor-test'
 	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'org.postgresql:r2dbc-postgresql'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-}
-
-flyway {
-	url = 'jdbc:postgresql://localhost:5432/gremio'
-	user = 'gremio'
-	password = 'gremio'
-	locations = [
-			'classpath:db/migration'
-	]
-	cleanDisabled = false
+	liquibaseRuntime 'org.liquibase:liquibase-core'
+	liquibaseRuntime 'info.picocli:picocli:4.6.3'
+	liquibaseRuntime "org.postgresql:postgresql:42.2.24"
 }

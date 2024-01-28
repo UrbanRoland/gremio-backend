@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
+import reactor.core.publisher.Mono;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class AuthenticationController {
      * @return The UserDetailsDto of the newly created user.
      */
     @MutationMapping
-    public User registration(@Argument @Valid final UserInput user) {
+    public Mono<User> registration(@Argument @Valid final UserInput user) {
         return userFacade.userRegistration(user);
     }
 

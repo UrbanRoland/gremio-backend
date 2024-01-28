@@ -1,53 +1,43 @@
 package com.gremio.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.envers.Audited;
-import jakarta.persistence.Column;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-@Entity
-@Audited
+@Table
 @NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder
-public class Project extends BaseEntity {
+public class Project {
 
+    @Id
+    private Long id;
     private String name;
-    @Column(unique = true, nullable = false)
     private String key;
-    @ManyToOne
-    @JoinColumn(name = "project_lead_id")
-    private User projectLead;
+    @Column("project_lead_id")
+    private Long projectLeadId;
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String status;
     private String category;
-    @OneToMany(mappedBy = "project")
-    @JsonBackReference
-    private List<Issue> issues;
-    @ManyToMany
-    @JoinTable(
-        name = "project_team_members",
-        joinColumns = @JoinColumn(name = "project_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> teamMembers;
-
+    
+    @MappedCollection(idColumn = "issue_id")
+    private List<Long> issueIds;
+    
+    @MappedCollection(idColumn = "user_id")
+    private Set<Long> teamMemberIds;
 }

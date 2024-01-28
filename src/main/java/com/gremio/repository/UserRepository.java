@@ -1,18 +1,12 @@
 package com.gremio.repository;
 
 import com.gremio.persistence.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, Long>, JpaRepository<User, Long> {
+public interface UserRepository extends ReactiveCrudRepository<User, Long> {
 
-    /**
-     * Finds the user with the given email.
-     *
-     * @param email The email address of the user to find.
-     * @return The user with the provided email, or null if not found.
-     */
-    User findUserByEmail(String email);
+    Mono<User> findUserByEmail(String email);
 }

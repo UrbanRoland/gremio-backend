@@ -1,47 +1,44 @@
 package com.gremio.persistence.entity;
 
 import com.gremio.enums.RoleType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import java.util.Collection;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-@Audited
+//@Audited
 @Builder
 @Getter
 @Setter
-public class User extends BaseEntity implements UserDetails {
+public class User implements UserDetails {
 
+    @Id
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String refreshToken;
-    @OneToOne(mappedBy = "user")
+    @Column("password_reset_token_id")
     private PasswordResetToken passwordResetToken;
-
-    @Column(columnDefinition = "varchar(128) default 'ROLE_READ_ONLY'")
-    @Enumerated(EnumType.STRING)
+    
+    @Column("role")
     private RoleType role;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Stream.of(this.getRole()).map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());

@@ -1,9 +1,9 @@
 package com.gremio.persistence.filter;
 
 import com.gremio.model.dto.filter.IssueFilter;
-import com.gremio.persistence.entity.QIssue;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
+//import com.gremio.persistence.entity.QIssue;
+//import com.querydsl.core.BooleanBuilder;
+//import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 
@@ -18,7 +18,7 @@ public class IssueFilterImpl {
      * @param issueFilter The IssueFilter object containing the filter criteria.
      * @return A Predicate object containing the filter criteria.
      */
-    public Predicate getAllIssuesByFilter(final IssueFilter issueFilter) {
+  /*  public Predicate getAllIssuesByFilter(final IssueFilter issueFilter) {
         final QIssue qIssue = QIssue.issue;
         final BooleanBuilder builder = new BooleanBuilder();
 
@@ -39,5 +39,5 @@ public class IssueFilterImpl {
         }
 
         return builder;
-    }
+    }*/
 }

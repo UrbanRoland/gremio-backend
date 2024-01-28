@@ -1,13 +1,9 @@
 package com.gremio.controller;
 
-import com.gremio.model.dto.filter.IssueFilter;
-import com.gremio.model.dto.response.PageableResponse;
 import com.gremio.model.input.IssueInput;
 import com.gremio.persistence.entity.Issue;
 import com.gremio.service.interfaces.IssueService;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Window;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -44,15 +40,8 @@ public class IssueController extends AbstractController {
     @QueryMapping
     @PreAuthorize("isAuthenticated()")
     public Window<Issue> findAllIssuesByTitle(@Argument final String title, final ScrollSubrange subrange) {
-        return issueService.findAllIssuesByTitle(title, subrange);
-    }
-
-    //todo pageable data should be retrieved from the request
-    @QueryMapping
-    @PreAuthorize("isAuthenticated()")
-    PageableResponse<Issue> findIssuesByFilter(@Argument final IssueFilter issueFilter) {
-        final Pageable pageable = PageRequest.of(0, 10);
-        return  this.getPageableResponse(issueService.findIssuesByFilter(issueFilter, pageable));
+       // return issueService.findAllIssuesByTitle(title, subrange);
+       return null;
     }
 
     /**

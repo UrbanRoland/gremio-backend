@@ -23,6 +23,7 @@ public class EmailServiceImpl implements EmailService {
    // @Value("${changed.link}")
    // private String changedLink;
 
+    //todo rewrite this logic
     /**
      * {@inheritDoc}
      */

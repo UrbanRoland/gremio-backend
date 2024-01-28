@@ -1,14 +1,13 @@
 package com.gremio.repository;
 
 import com.gremio.persistence.entity.PasswordResetToken;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
+import reactor.core.publisher.Mono;
 
 @Repository
-public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, Long> {
-    Optional<PasswordResetToken> findByUserId(Long id);
+public interface PasswordResetTokenRepository extends ReactiveCrudRepository<PasswordResetToken, Long> {
+    Mono<PasswordResetToken> findByUserId(Long id);
     
     PasswordResetToken findByToken(String token);
     

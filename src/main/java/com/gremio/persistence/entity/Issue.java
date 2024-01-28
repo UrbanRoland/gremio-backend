@@ -3,39 +3,41 @@ package com.gremio.persistence.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gremio.enums.IssueStatus;
 import com.gremio.enums.Priority;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 
-@Entity
-@Audited
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Table
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 public class Issue extends BaseEntity {
-    @OneToMany
-    @JsonBackReference
-    private List<User> assignee;
+    
+    @MappedCollection(idColumn = "issue_id")
+    private List<Long> assigneeIds;
+    
     private String title;
     private LocalDateTime due;
-    @ManyToOne
-    private Project project;
+    
+    @Column("project_id")
+    private Long projectId;
+    
     private String description;
-    @Enumerated(EnumType.STRING)
+    
+    @Column("status")
     private IssueStatus status;
-    @Enumerated(EnumType.STRING)
+    
+    @Column("priority")
     private Priority priority;
-
 }

@@ -1,0 +1,1 @@
+ALTER TABLE public.users DROP COLUMN password_reset_token_id;

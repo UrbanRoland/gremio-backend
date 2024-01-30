@@ -1,4 +1,4 @@
-package com.gremio.persistence.entity;
+package com.gremio.persistence.domain;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

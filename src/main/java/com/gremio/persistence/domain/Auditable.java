@@ -1,4 +1,4 @@
-package com.gremio.persistence.entity;
+package com.gremio.persistence.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

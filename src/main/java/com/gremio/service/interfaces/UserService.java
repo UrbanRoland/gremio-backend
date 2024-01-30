@@ -1,7 +1,7 @@
 package com.gremio.service.interfaces;
 
 import com.gremio.model.input.UserInput;
-import com.gremio.persistence.entity.User;
+import com.gremio.persistence.domain.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import reactor.core.publisher.Mono;
 

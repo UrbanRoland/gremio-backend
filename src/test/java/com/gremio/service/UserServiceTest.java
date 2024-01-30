@@ -3,7 +3,7 @@ package com.gremio.service;
 import com.gremio.enums.RoleType;
 import com.gremio.exception.NotFoundException;
 import com.gremio.model.input.UserInput;
-import com.gremio.persistence.entity.User;
+import com.gremio.persistence.domain.User;
 import com.gremio.repository.UserRepository;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Assertions;

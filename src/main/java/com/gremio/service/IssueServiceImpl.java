@@ -1,8 +1,8 @@
 package com.gremio.service;
 
 import com.gremio.model.input.IssueInput;
-import com.gremio.persistence.entity.Issue;
-import com.gremio.persistence.entity.Project;
+import com.gremio.persistence.domain.Issue;
+import com.gremio.persistence.domain.Project;
 import com.gremio.repository.IssueRepository;
 import com.gremio.repository.ProjectRepository;
 import com.gremio.service.interfaces.IssueService;
@@ -25,14 +25,17 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue addIssue(final IssueInput issue) {
 
-        final Project project = projectRepository.findById(issue.projectId()).switchIfEmpty(Mono.empty()).block();
+        final Project project = Mono.justOrEmpty(issue.projectId())
+            .flatMap(projectRepository::findById)
+            .switchIfEmpty(Mono.empty())
+            .block();
 
         final Issue result = Issue.builder()
               .title(issue.title())
               .status(issue.status())
               .description(issue.description())
               .due(issue.due())
-              .projectId(project.getId())
+              .projectId(project != null ? project.getId() : null)
               .build();
 
         return issueRepository.save(result).block();

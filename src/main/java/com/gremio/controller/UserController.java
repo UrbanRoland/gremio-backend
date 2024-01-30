@@ -2,7 +2,7 @@ package com.gremio.controller;
 
 import com.gremio.facade.UserFacade;
 import com.gremio.model.input.UserInput;
-import com.gremio.persistence.entity.User;
+import com.gremio.persistence.domain.User;
 import com.gremio.service.interfaces.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;

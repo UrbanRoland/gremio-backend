@@ -1,7 +1,7 @@
 package com.gremio.controller;
 
 import com.gremio.model.input.IssueInput;
-import com.gremio.persistence.entity.Issue;
+import com.gremio.persistence.domain.Issue;
 import com.gremio.service.interfaces.IssueService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Window;

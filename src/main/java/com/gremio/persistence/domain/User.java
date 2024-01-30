@@ -1,4 +1,4 @@
-package com.gremio.persistence.entity;
+package com.gremio.persistence.domain;
 
 import com.gremio.enums.RoleType;
 import lombok.AllArgsConstructor;
@@ -34,9 +34,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private String refreshToken;
-    @Column("password_reset_token_id")
-    private PasswordResetToken passwordResetToken;
-    
+
     @Column("role")
     private RoleType role;
     @Override

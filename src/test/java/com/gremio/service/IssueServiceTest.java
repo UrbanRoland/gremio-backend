@@ -1,8 +1,8 @@
 package com.gremio.service;
 
 import com.gremio.model.input.IssueInput;
-import com.gremio.persistence.entity.Issue;
-import com.gremio.persistence.entity.Project;
+import com.gremio.persistence.domain.Issue;
+import com.gremio.persistence.domain.Project;
 import com.gremio.repository.ProjectRepository;
 import com.gremio.repository.IssueRepository;
 import org.junit.jupiter.api.Assertions;

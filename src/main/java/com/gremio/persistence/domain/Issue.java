@@ -1,6 +1,5 @@
-package com.gremio.persistence.entity;
+package com.gremio.persistence.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gremio.enums.IssueStatus;
 import com.gremio.enums.Priority;
 import lombok.AllArgsConstructor;
@@ -22,8 +21,10 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor
-public class Issue extends BaseEntity {
+public class Issue {
     
+    @Id
+    private Long id;
     @MappedCollection(idColumn = "issue_id")
     private List<Long> assigneeIds;
     

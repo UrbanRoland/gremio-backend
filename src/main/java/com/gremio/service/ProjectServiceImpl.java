@@ -1,7 +1,7 @@
 package com.gremio.service;
 
 import com.gremio.model.input.ProjectInput;
-import com.gremio.persistence.entity.Project;
+import com.gremio.persistence.domain.Project;
 import com.gremio.repository.ProjectRepository;
 import com.gremio.service.interfaces.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +30,9 @@ public class ProjectServiceImpl implements ProjectService {
                 .endDate(projectInput.endDate())
                 .status(projectInput.status())
                 .build();
-
+        
         projectCreatedSink.tryEmitNext(createdProject);
-        projectRepository.save(createdProject);
-        return createdProject;
+        return  projectRepository.save(createdProject).block();
     }
 
     /**

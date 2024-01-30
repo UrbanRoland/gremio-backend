@@ -1,7 +1,7 @@
 package com.gremio.controller;
 
 import com.gremio.model.input.ProjectInput;
-import com.gremio.persistence.entity.Project;
+import com.gremio.persistence.domain.Project;
 import com.gremio.service.interfaces.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -20,8 +20,8 @@ public class ProjectController {
      * @param project the project to create
      */
     @MutationMapping
-    public void createProject(@Argument final ProjectInput project) {
-        projectService.createProject(project);
+    public Project createProject(@Argument final ProjectInput project) {
+        return projectService.createProject(project);
     }
 
     /**

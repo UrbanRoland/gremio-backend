@@ -2,7 +2,7 @@ package com.gremio.facade;
 
 import com.gremio.model.dto.response.AuthResponse;
 import com.gremio.model.input.UserInput;
-import com.gremio.persistence.entity.User;
+import com.gremio.persistence.domain.User;
 import reactor.core.publisher.Mono;
 
 public interface UserFacade {

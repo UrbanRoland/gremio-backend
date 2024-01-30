@@ -1,19 +1,17 @@
-package com.gremio.persistence.entity;
+package com.gremio.persistence.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 @Table
 @NoArgsConstructor
@@ -21,6 +19,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @Builder
+@ToString
 public class Project {
 
     @Id
@@ -34,10 +33,5 @@ public class Project {
     private LocalDateTime endDate;
     private String status;
     private String category;
-    
-    @MappedCollection(idColumn = "issue_id")
-    private List<Long> issueIds;
-    
-    @MappedCollection(idColumn = "user_id")
-    private Set<Long> teamMemberIds;
+
 }

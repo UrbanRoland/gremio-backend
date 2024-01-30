@@ -4,7 +4,7 @@ import com.gremio.enums.RoleType;
 import com.gremio.exception.NotFoundException;
 import com.gremio.message.NotFoundMessageKey;
 import com.gremio.model.input.UserInput;
-import com.gremio.persistence.entity.User;
+import com.gremio.persistence.domain.User;
 import com.gremio.repository.UserRepository;
 import com.gremio.service.interfaces.UserService;
 import jakarta.validation.ValidationException;

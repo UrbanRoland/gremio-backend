@@ -1,6 +1,6 @@
 package com.gremio.repository;
 
-import com.gremio.persistence.entity.Issue;
+import com.gremio.persistence.domain.Issue;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 

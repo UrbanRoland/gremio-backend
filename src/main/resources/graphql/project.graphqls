@@ -2,7 +2,7 @@ type Project {
     id: ID
     name: String
     key: String
-    projectLead: User
+    projectLeadId: ID
     description: String
     startDate: LocalDateTime
     endDate: LocalDateTime
@@ -10,6 +10,10 @@ type Project {
     category: String
     issues: [Issue]
     teamMembers: [User]
+}
+
+extend type Query {
+    project(id: ID): Project
 }
 
 extend type Mutation {

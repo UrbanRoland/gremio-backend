@@ -1,7 +1,7 @@
 package com.gremio.service.interfaces;
 
 import com.gremio.model.input.IssueInput;
-import com.gremio.persistence.entity.Issue;
+import com.gremio.persistence.domain.Issue;
 
 public interface IssueService {
 

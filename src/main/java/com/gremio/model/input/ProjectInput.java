@@ -1,9 +1,9 @@
 package com.gremio.model.input;
 
-import com.gremio.persistence.entity.User;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
-public record ProjectInput(String name, String key, User projectLead, String description,
-                    LocalDateTime startDate, LocalDateTime endDate, String status, String category) {
+public record ProjectInput(String name, String key, UserInput projectLead, String description,
+                           LocalDateTime startDate, LocalDateTime endDate, String status, String category,
+                           List<IssueInput> issues, List<UserInput> teamMembers) {
 }

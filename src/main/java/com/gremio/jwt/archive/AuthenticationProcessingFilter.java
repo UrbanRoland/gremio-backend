@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gremio.exception.NotFoundException;
 import com.gremio.model.dto.request.AuthRequest;
 import com.gremio.model.dto.response.AuthResponse;
-import com.gremio.persistence.entity.User;
+import com.gremio.persistence.domain.User;
 import com.gremio.service.interfaces.JwtService;
 import com.gremio.service.interfaces.UserService;
 import jakarta.servlet.FilterChain;

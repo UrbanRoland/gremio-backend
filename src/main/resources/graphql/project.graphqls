@@ -4,8 +4,8 @@ type Project {
     key: String
     projectLead: User
     description: String
-    startDate: LocalDateTime
-    endDate: LocalDateTime
+    startDate: DateTime
+    endDate: DateTime
     status: String
     category: String
     issues: [Issue]
@@ -25,8 +25,8 @@ extend type Subscription {
     key: String
     projectLead: UserInput
     description: String
-    startDate: LocalDateTime
-    endDate: LocalDateTime
+    startDate: DateTime
+    endDate: DateTime
     status: String
     category: String
     issues: [IssueInput]

@@ -1,4 +1,4 @@
-scalar LocalDateTime
+scalar DateTime
 directive @auth(role : String!) on FIELD_DEFINITION
 
 type Query {}

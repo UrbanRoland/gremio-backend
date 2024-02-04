@@ -42,7 +42,7 @@ public class UserFacadeImpl implements  UserFacade {
     @Override
     public String forgotPassword(final String email) {
         final User user = userService.findUserByEmail(email);
-    
+        
         if (user == null) {
             throw new NotFoundException(NotFoundMessageKey.USER);
         }

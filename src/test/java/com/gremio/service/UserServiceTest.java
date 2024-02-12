@@ -34,7 +34,7 @@ public class UserServiceTest {
     private PasswordEncoder passwordEncoder;
     
     private User user;
-    private UserInput userDto;
+    private UserInput userInput;
 
     @BeforeEach
     public void init() {
@@ -47,7 +47,7 @@ public class UserServiceTest {
         
         user.setId(1L);
         
-        this.userDto = UserInput.builder()
+        this.userInput = UserInput.builder()
             .password("Test12345676")
             .role(RoleType.ROLE_READ_ONLY)
             .id(1L)
@@ -74,7 +74,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
         Mockito.when(conversionService.convert(Mockito.any(UserInput.class), Mockito.eq(User.class))).thenReturn(user);
         
-        final User savedUser = userService.create(userDto);
+        final User savedUser = userService.create(userInput);
         
         Assertions.assertNotNull(savedUser);
         Assertions.assertEquals("encodedPassword",savedUser.getPassword());
@@ -83,14 +83,14 @@ public class UserServiceTest {
     }
     @Test
     public void UserService_CreateUser_ThrowsValidationException() {
-        Assertions.assertThrows(ValidationException.class, () -> userService.create(userDto));
+        Assertions.assertThrows(ValidationException.class, () -> userService.create(userInput));
     }
 
     @Test
     public void UserService_LoadUserByUserName_ReturnsUserDetails() {
         Mockito.when(userRepository.findUserByEmail(user.getEmail())).thenReturn(user);
         UserDetails userDetails = userService.loadUserByUsername(user.getEmail());
-        
+
         Assertions.assertNotNull(userDetails);
         Mockito.verify(userRepository).findUserByEmail(user.getEmail());
     }
@@ -98,7 +98,7 @@ public class UserServiceTest {
     @Test
     public void UserService_LoadUserByUserName_ThrowsNotFoundException() {
         Mockito.when(userRepository.findUserByEmail(user.getEmail())).thenReturn(null);
-    
+
         Assertions.assertThrows(NotFoundException.class, () -> {
             userService.loadUserByUsername(user.getEmail());
         });
@@ -110,16 +110,36 @@ public class UserServiceTest {
     public void UserService_Update_ReturnUser() {
         String encodedPassword = "encodedTest123";
 
-        
-        Mockito.when(userRepository.getReferenceById(userDto.id())).thenReturn(user);
+        Mockito.when(userRepository.getReferenceById(userInput.id())).thenReturn(user);
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
-        Mockito.when(passwordEncoder.encode(userDto.password())).thenReturn(encodedPassword);
-    
-        User updatedUser = userService.update(userDto);
-    
-        Assertions.assertEquals(userDto.email(), updatedUser.getEmail());
+        Mockito.when(passwordEncoder.encode(userInput.password())).thenReturn(encodedPassword);
+
+        User updatedUser = userService.update(userInput);
+
+        Assertions.assertEquals(userInput.email(), updatedUser.getEmail());
         Assertions.assertEquals(encodedPassword, updatedUser.getPassword());
-        Assertions.assertEquals(userDto.role().getName(), updatedUser.getRole().getName());
-    
+        Assertions.assertEquals(userInput.role().getName(), updatedUser.getRole().getName());
+
+    }
+
+    @Test
+    public void UserService_Update_ThrowValidationException () {
+        User existingUser = new User();
+        existingUser.setId(1L);
+        existingUser.setEmail("existing.email@example.com");
+
+        Mockito.when(userRepository.getReferenceById(userInput.id())).thenReturn(existingUser);
+        Mockito.when(userRepository.findUserByEmail(userInput.email())).thenReturn(existingUser);
+
+        Assertions.assertThrows(ValidationException.class, () -> userService.update(userInput));
+        Mockito.verify(userRepository, Mockito.never()).save(Mockito.any());
+
+    }
+
+    @Test
+    public void UserService_Update_ThrowValidationException2 () {
+        userService.save(user);
+
+        Mockito.verify(userRepository).save(user);
     }
 }

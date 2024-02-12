@@ -76,4 +76,21 @@ public class IssueServiceImpl implements IssueService {
     public Issue findIssueById(final Long id) {
         return issueRepository.findById(id).orElse(null);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Issue updateIssue(final Long id, final IssueInput issueInput) {
+        final Issue issue = issueRepository.findById(id).orElse(null);
+        if (issue == null) {
+            return null;
+        }
+        //todo add all fields
+        issue.setTitle(issueInput.title());
+        issue.setDescription(issueInput.description());
+        issue.setDue(issueInput.due());
+        issue.setStatus(issueInput.status());
+        return issueRepository.save(issue);
+    }
 }

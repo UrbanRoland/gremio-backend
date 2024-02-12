@@ -38,4 +38,12 @@ public interface IssueService {
      * @return The issue with the given id.
      */
     Issue findIssueById(Long id);
+
+    /**
+     * Updates the issue with the given id.
+     * @param id The id of the issue to update.
+     * @param issueInput The new issue data.
+     * @return The updated issue.
+     */
+    Issue updateIssue(Long id, IssueInput issueInput);
 }

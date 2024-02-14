@@ -60,7 +60,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	testImplementation 'org.springframework.graphql:spring-graphql-test:1.2.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
 	testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.2.1'
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'

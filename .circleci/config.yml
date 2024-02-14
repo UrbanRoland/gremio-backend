@@ -13,6 +13,7 @@ jobs:
   build:
     <<: *defaults
     steps:
+      # Checkout the code from the repository
       - checkout
 
       # Restore cached Gradle dependencies
@@ -33,6 +34,7 @@ jobs:
       - run: gradle build
       - run: gradle test
 
+      # Set up a remote Docker environment with layer caching enabled
       - setup_remote_docker:
           docker_layer_caching: true
 

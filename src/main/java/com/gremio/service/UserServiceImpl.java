@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+//import samples.boot.AppConfig;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ConversionService conversionService;
+   // private final AppConfig.Server config;
 
     /**
      * Retrieves the user details associated with the provided email.
@@ -55,6 +57,7 @@ public class UserServiceImpl implements UserService {
     public User create(final UserInput userInput) {
         final User user = conversionService.convert(userInput, User.class);
 
+        
         if (user == null || userRepository.findUserByEmail(user.getEmail()) != null) {
             throw new ValidationException("Something went wrong! Please try again later.");
         }

@@ -6,6 +6,7 @@ import com.gremio.service.interfaces.JwtService;
 import com.gremio.service.interfaces.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionService;
@@ -25,6 +26,7 @@ import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
+//@ConfigurationPropertiesScan
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

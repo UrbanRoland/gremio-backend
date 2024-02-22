@@ -41,7 +41,8 @@ public class SpringSecurityConfig {
         "/users/forgot-password",
         "/users/reset-password",
         "/graphql/**",
-        "/graphiql"
+        "/graphiql",
+        "/actuator/prometheus",
     };
 
     private final PasswordEncoder passwordEncoder;

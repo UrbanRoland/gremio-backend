@@ -46,6 +46,27 @@ services:
     environment:
       SPRING_REDIS_HOST: cache
       SPRING_REDIS_PORT: 6379
+  prometheus:
+      image: prom/prometheus
+      container_name: prometheus
+      restart: unless-stopped
+      ports:
+        - "9090:9090"
+      volumes:
+        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    restart: unless-stopped
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    volumes:
+      - ./grafana/tmp:/etc/grafana
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+    ports:
+      - "3000:3000"
 
 networks:
   gremio:

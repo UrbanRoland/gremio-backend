@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM openjdk:21
 
 ARG JAR_FILE=build/libs/gremio-0.0.1.jar
 

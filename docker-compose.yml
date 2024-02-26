@@ -65,6 +65,8 @@ services:
     volumes:
       - ./grafana/tmp:/etc/grafana
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
     ports:
       - "3000:3000"
 

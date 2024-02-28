@@ -50,6 +50,10 @@ services:
       image: prom/prometheus
       container_name: prometheus
       restart: unless-stopped
+      command:
+        - --enable-feature=exemplar-storage
+        - --web.enable-remote-write-receiver
+        - --config.file=/etc/prometheus/prometheus.yml
       ports:
         - "9090:9090"
       volumes:
@@ -69,12 +73,24 @@ services:
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
     ports:
       - "3000:3000"
-  zipkin:
-    image: openzipkin/zipkin
-    container_name: zipkin
+  tempo:
+    container_name: tempo
+    image: grafana/tempo
     restart: unless-stopped
+    command: [ '-config.file=/etc/tempo.yml' ]
+    volumes:
+      - tempo:/tmp/tempo
+      - ./grafana/tempo.yml:/etc/tempo.yml:ro
     ports:
-      - "9411:9411"
+      - "3200:3200"    # tempo
+      - "9411:9411"    # zipkin
+  loki:
+    container_name: loki
+    image: grafana/loki
+    restart: unless-stopped
+    command: [ '-config.file=/etc/loki/local-config.yaml' ]
+    ports:
+      - "3100:3100"
 
 networks:
   gremio:
@@ -84,3 +100,5 @@ volumes:
   gremio_psql_logs:
   spring_app_config:
   spring_app_logs:
+  tempo:
+    driver: local

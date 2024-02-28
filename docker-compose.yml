@@ -69,6 +69,12 @@ services:
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
     ports:
       - "3000:3000"
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    restart: unless-stopped
+    ports:
+      - "9411:9411"
 
 networks:
   gremio:

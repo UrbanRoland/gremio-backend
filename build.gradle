@@ -69,6 +69,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'org.liquibase:liquibase-core'
+	implementation 'io.projectreactor:reactor-core'
+	implementation platform('io.projectreactor:reactor-bom:2023.0.4')
 	testImplementation 'org.springframework.graphql:spring-graphql-test:1.2.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.2.1'

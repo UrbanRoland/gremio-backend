@@ -1,6 +1,6 @@
 package com.gremio.controller;
 
-import com.gremio.facade.UserFacade;
+import com.gremio.facade.interfaces.UserFacade;
 import com.gremio.model.dto.response.AuthResponse;
 import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;

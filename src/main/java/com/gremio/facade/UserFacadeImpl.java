@@ -3,6 +3,7 @@ package com.gremio.facade;
 import com.gremio.enums.UserMessageKey;
 import com.gremio.exception.NotFoundException;
 import com.gremio.exception.UserException;
+import com.gremio.facade.interfaces.UserFacade;
 import com.gremio.message.NotFoundMessageKey;
 import com.gremio.model.dto.response.AuthResponse;
 import com.gremio.model.input.UserInput;
@@ -27,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Component
-public class UserFacadeImpl implements  UserFacade {
+public class UserFacadeImpl implements UserFacade {
     private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
     private final UserService userService;
     private final EmailService emailService;

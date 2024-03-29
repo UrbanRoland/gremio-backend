@@ -1,6 +1,6 @@
 package com.gremio.controller;
 
-import com.gremio.facade.UserFacade;
+import com.gremio.facade.interfaces.UserFacade;
 import com.gremio.model.input.UserInput;
 import com.gremio.persistence.entity.User;
 import com.gremio.repository.UserRepository;
@@ -21,7 +21,6 @@ public class UserController {
 
     private final UserService userService;
     private final UserFacade userFacade;
-    
     private final UserRepository userRepository;
 
     /**

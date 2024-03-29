@@ -1,4 +1,4 @@
-package com.gremio.facade;
+package com.gremio.facade.interfaces;
 
 import com.gremio.model.input.UserInput;
 import com.gremio.model.dto.response.AuthResponse;

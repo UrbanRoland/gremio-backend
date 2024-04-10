@@ -19,6 +19,7 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,7 +57,7 @@ public class IssueControllerIntTest {
             .project(project)
             .build();
 
-        Mockito.when(projectRepository.findById(ArgumentMatchers.anyLong())).thenReturn(java.util.Optional.ofNullable(project));
+        Mockito.when(projectRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.ofNullable(project));
         Mockito.when(issueRepository.save(ArgumentMatchers.any(Issue.class))).thenReturn(expectedIssue);
 
         //language=GraphQL
@@ -76,6 +77,36 @@ public class IssueControllerIntTest {
             assertEquals(expectedIssue.getTitle(), issue.getTitle());
             assertEquals(expectedIssue.getDescription(), issue.getDescription());
             assertEquals(expectedIssue.getProject().getId(), issue.getProject().getId());
+        });
+    }
+    
+    @Test
+    @WithMockUser(authorities = "ROLE_ADMIN")
+    void IssueController_FindIssueById_ReturnIssue() {
+        
+        Issue expectedIssue =  Issue.builder()
+            .title("testIssue")
+            .status(IssueStatus.PASSED)
+            .description("123testdescruiption")
+            .project(project)
+            .build();
+        
+        Mockito.when(issueRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(expectedIssue));
+        Mockito.when(issueRepository.save(ArgumentMatchers.any(Issue.class))).thenReturn(expectedIssue);
+        
+        //language=GraphQL
+        String document = """
+        query {
+          findIssueById(id: 1) {
+            title
+            description
+          }
+        }
+        """;
+        
+        graphQlTester.document(document).execute().path("findIssueById").entity(Issue.class).satisfies(issue -> {
+            assertEquals(expectedIssue.getTitle(), issue.getTitle());
+            assertEquals(expectedIssue.getDescription(), issue.getDescription());
         });
     }
     

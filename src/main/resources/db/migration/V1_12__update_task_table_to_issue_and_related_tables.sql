@@ -11,7 +11,7 @@ ALTER TABLE task_assignee RENAME TO issue_assignee;
 ALTER TABLE task_assignee_aud RENAME TO issue_assignee_aud;
 
 -- Rename the task_id column to issue_id in the issue_assignee table
-ALTER TABLE issue_assigneeRENAME COLUMN task_id TO issue_id;
+ALTER TABLE issue_assignee RENAME COLUMN task_id TO issue_id;
 
 -- Rename the task_id column to issue_id in the issue_assignee table
 ALTER TABLE issue_assignee_aud RENAME COLUMN task_id TO issue_id;

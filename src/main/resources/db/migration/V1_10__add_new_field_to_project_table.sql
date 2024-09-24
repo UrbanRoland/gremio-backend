@@ -37,9 +37,10 @@ ALTER TABLE project_aud
 
 -- Create audit table for the many-to-many relationship between Project and User
 CREATE TABLE IF NOT EXISTS project_team_members_aud (
-    ADD COLUMN project_id BIGINT NOT NULL,
-    ADD COLUMN assignee_id BIGINT NOT NULL
-    ADD COLUMN rev int4 NOT NULL,
-    ADD COLUMN revtype int2 NULL,
-    ADD COLUMN team_members_id BIGINT NULL;
+    project_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    assignee_id BIGINT NOT NULL,
+    rev int4 NOT NULL,
+    revtype int2 NULL,
+    team_members_id BIGINT NULL
 );

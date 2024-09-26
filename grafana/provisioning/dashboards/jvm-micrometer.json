@@ -3380,15 +3380,15 @@
   ],
   "refresh": "5s",
   "schemaVersion": 37,
-  "style": "dark",
+  "style": "light",
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "tea-service",
-          "value": "tea-service"
+          "text": "gremio",
+          "value": "gremio"
         },
         "datasource": {
           "type": "prometheus",

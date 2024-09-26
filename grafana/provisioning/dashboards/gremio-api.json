@@ -223,93 +223,6 @@
       "type": "timeseries"
     },
     {
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 16,
-        "y": 0
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": "Prometheus",
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "sum(rate(tea_make_total[$__rate_interval])) by (name, size)",
-          "legendFormat": "{{size}} {{name}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "steeped tea",
-      "type": "timeseries"
-    },
-    {
       "cards": {},
       "color": {
         "cardColor": "#b4ff00",
@@ -428,8 +341,8 @@
         "allValue": ".*",
         "current": {
           "selected": false,
-          "text": "tea-service",
-          "value": "tea-service"
+          "text": "gremio",
+          "value": "gremio"
         },
         "datasource": {
           "type": "prometheus",
@@ -456,14 +369,14 @@
         "allValue": ".*",
         "current": {
           "selected": false,
-          "text": "/tea/{name}",
-          "value": "/tea/{name}"
+          "text": "gremio",
+          "value": "gremio"
         },
         "datasource": {
           "type": "prometheus",
           "uid": "prometheus"
         },
-        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\"}, uri)",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\"}, graphql_operation)",
         "hide": 0,
         "includeAll": true,
         "label": "URI",
@@ -471,7 +384,7 @@
         "name": "uri",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\"}, uri)",
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\"}, graphql_operation)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -488,7 +401,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Tea API",
+  "title": "Gremio API",
   "uid": "280lKAr7k",
   "version": 1,
   "weekStart": "monday"

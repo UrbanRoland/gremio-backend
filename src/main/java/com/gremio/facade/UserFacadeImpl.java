@@ -149,4 +149,22 @@ public class UserFacadeImpl implements UserFacade {
             .build();
     }
 
+/**
+ * {@inheritDoc}
+ */
+@Override
+public void logout(final String email) {
+    final User user = userService.findUserByEmail(email);
+    if (user == null) {
+        throw new NotFoundException(NotFoundMessageKey.USER);
+    }
+
+    user.setRefreshToken(null); // Clearing refresh token to invalidate it
+    userService.save(user);
+
+    // Optionally, you can perform additional logout actions here
+
+    System.out.println("User logged out: " + email);
+}
+    
 }
